@@ -89,7 +89,7 @@ EXTEND : 'extend';
 //STYLES : 'styles' ;
 TEMPLATE: 'template';
 TEMPLATEURL: 'templateUrl';
-STYLES: 'styleUrls';
+STYLES: 'styles';
 SELECTOR: 'selector';
 PROVIDEDIN: 'providedIn';
 PROVIDED_IN_ROOT: '\'root\'';

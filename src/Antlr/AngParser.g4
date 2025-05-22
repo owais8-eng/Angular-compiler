@@ -19,8 +19,8 @@ directiveConfig: OPEN_BRACE selector CLOSE_BRACE ;
 injectableConfig: OPEN_BRACE PROVIDEDIN COLON (PROVIDED_IN_ROOT | PROVIDED_IN_PLATFORM | PROVIDED_IN_ANY | SingleLineString) CLOSE_BRACE ;
 
 selector: SELECTOR COLON SingleLineString ;
-templateUrl: TEMPLATEURL COLON SingleLineString ;
-template: TEMPLATE COLON SingleLineString ;
+templateUrl: TEMPLATEURL COLON (SingleLineString | html) ;
+template: TEMPLATE COLON (SingleLineString | html) ;
 styleUrls: STYLES COLON array ;
 
 map: OPEN_BRACE (((ID) COLON value) COMMA?)* CLOSE_BRACE ;
@@ -64,7 +64,7 @@ htmlVar :OPEN_BRACE? ID CLOSE_BRACE?;
 
 htmlinside : sy? (htmlID | htmlClass)* ;
 htmlID : (MULTI? (ID) EQUAL OPEN_BRACE? value2 CLOSE_BRACE?) ;
-htmlClass : ((CLASS_NAME) EQUAL OPEN_BRACE? value2 CLOSE_BRACE?) ;
+htmlClass : ((CLASS) EQUAL OPEN_BRACE? value2 CLOSE_BRACE?) ;
 sy : ID ;
 
 value2 : (onClick | attributeValue | ID DOT ID ) ;

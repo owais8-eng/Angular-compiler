@@ -1,30 +1,67 @@
-  import { NgModule } from "@angular/core";
-    @Component({
-                  selector: "app-root",
-                  templateUrl: "app.component.html",
-                  styleUrls: ["app.component.css"]
-              })
-              export class MyClass implements InterfaceName {
-                  private myVariable: string = "Hello, World!";
 
-              }
-              export class ProfilePhoto {
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
 
-                  constructor(private renderer: Renderer2, private el: ElementRef) {
-                      super(id , name);
-                  }
+import { AppComponent } from "./app.component";
+import { ExampleComponent } from "./example/example.component";
 
-                  let name: string = "mk";
-                      name = "Angular Framework";
+@Component({
+ selector: "app-root",
+  template:<div className="container mt-3">
+                  <div className="row">
+                    <div className="col-md-4">
+                      {products.map((product) => (
+                        <div *key={product.id} className="mb-3">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="img-fluid"
+                            onClick={handleClick}
+                          />
+                          <p>{product.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="col-md-8">
+                      {selectedProduct && (
+                        <div>
+                          <img id="imgdesc" src={selectedProduct.image} alt={selectedProduct.name} className="img-fluid mb-3" />
+                          <h3>{selectedProduct.name}</h3>
+                          <p>{selectedProduct.description}</p>
+                          <ul>
+                            {selectedProduct.features.map((feature, index) => (
+                              <li key={index}>{feature}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>,
 
-                    addHtml() {
-                      const container: [number , string] = this.el.nativeElement.querySelector("#container");
-                      const container10 = new User("dsdsd");
-                    }
-              }
-let public name: string = "mk";
-name = "Angular Framework";
-import  { NgModule } from "@angular/core";
-export class className{
-let private name = "aaaaa";
+  styles: [
+      `
+          .recently-viewed {
+          background-color: white;
+          padding: 15px;
+          border-radius: 8px;
+          text-align: center;
+
+        }
+
+        .recently-viewed img {
+          width: 100%;
+          border-radius: 8px;
+        }
+        `
+
+    ]
+
+})
+export class ProfilePhoto
+{
+ProfilePhoto(){
+
+let name = "Owais";
+   }
 }

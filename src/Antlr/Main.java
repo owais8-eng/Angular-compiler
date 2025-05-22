@@ -26,6 +26,13 @@ public class Main {
          //this for AST
         BaseVisitor visitor = new BaseVisitor();
         App app = (App) visitor.visit(tree);
+        SemanticCheck semanticCheck = new SemanticCheck(visitor.symbolTable);
+        boolean ok = semanticCheck.checkNonvoidFunctionReturn(visitor.symbolTable);
+        if (!ok) {
+            System.out.println("Semantic errors found.");
+        } else {
+            System.out.println("Semantic checks passed.");
+        }
 
         System.out.println(app);
     }
