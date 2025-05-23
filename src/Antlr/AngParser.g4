@@ -5,9 +5,9 @@ options { tokenVocab=AngLexer; }
 app : (importR | variable | function | exports | enum | interfaceCode)*  ;
 importR: IMPORT OPEN_BRACE (((ID) COMMA?)* SIGNAL? COMMA? ((ID) COMMA?)*) CLOSE_BRACE FROM SingleLineString SIME;
 
-exports : decorater* EXPORT CLASS ID ((IMPLEMENT | EXTEND) ID)? OPEN_BRACE classBody CLOSE_BRACE;
+exports : decorater* EXPORT CLASS ID ((IMPLEMENT | EXTEND) ID)?  classBody ;
 
-classBody: (constructor | variable | function | interfaceCode)* ;
+classBody: OPEN_BRACE (constructor | variable | function | interfaceCode)* CLOSE_BRACE ;
 
 decorater
   : AT COMPONENT OPEN_PAREN componentConfig CLOSE_PAREN

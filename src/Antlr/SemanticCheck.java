@@ -9,8 +9,11 @@ import java.util.*;
 
 public class SemanticCheck {
 
+
     private  SymbolTable symbolTable;
+
     Stack<String> scopeStack = new Stack<>();
+
     public SymbolTable getsymbolTable() {
         return symbolTable;
     }
@@ -18,8 +21,9 @@ public class SemanticCheck {
     public void setSymbolTable(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
     }
-    public SemanticCheck(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
+
+    public SemanticCheck() {
+
     }
 
     boolean check(){
@@ -28,68 +32,68 @@ public class SemanticCheck {
 
     boolean checkDuplicateComponentSelector(SymbolTable symbolTable) {
     Set<String> seenSelectors = new HashSet<>();
-
+          boolean hasDuplicates = false;
     for (Row row : symbolTable.getRows()) {
        if (row != null && "selector".equals(row.getName()))
        {
            String selector = row.getValue();
-           if (seenSelectors.contains(selector)) {
+           if (!seenSelectors.contains(selector)) {
                System.err.println("Semantic error :Duplicate selector found ->' "+ selector + "'");
-               return  false;
+               hasDuplicates = true;
            }
            seenSelectors.add(selector);
        }
     }
-    return true;
+    return !hasDuplicates;
     }
 
-    boolean checkNonvoidFunctionReturn(SymbolTable symbolTable) {
-        for (Row row : symbolTable.getRows()) {
-            if (row.getType().equals("function"))  {
-                String functionName = row.getName();
-                String returnType =  extractReturnType(row.getType());
+    public boolean isClassBodyMissing(SymbolTable symbolTable) {
+     for (Row row :symbolTable.getRows()) {
+         if (row.getType().equals("class") && row.getValue().equals("class_missing_body")){
+             System.err.println("semantic error '" + row.getName() + "' class should have a body");
+             return true;
+         }
+     }
+     return false;
+    }
 
-                if (!"void".equalsIgnoreCase(returnType)) {
-                    if (!row.getValue().toLowerCase().contains("return")) {
-                        System.err.println("Semantic error :function '" + functionName +"'");
-                        return false;
-                    }
+    public boolean isFunctionReturnTypeMismatched(SymbolTable symbolTable){
+        for (Row row :symbolTable.getRows()) {
+
+            if (row.getType().equals("function")) {
+                String value = row.getValue();
+                if (value == null && value.trim().isEmpty()) {
+                    continue;
+                }
+                if (!value.contains(":")) {
+
+                    continue;
+                }
+                String[] parts =value.split(":");
+                String declared = parts[0].trim();
+                String actual = parts[1].trim();
+                if (!declared.equals(actual)) {
+                    System.err.println("MisMatch datatype in function :" + row.getName());
+                    return true;
                 }
             }
         }
-        return true;
-    }
-    private String extractReturnType(String typeString) {
-        if (typeString.contains(":")) {
-            return typeString.split(":")[1];
-        }
-        return "void";
+        return false;
     }
 
-    private final List<Exports> exportNodes = new ArrayList<>();
+    public boolean checkSelectorIsFirst(SymbolTable symbolTable ,String scope) {
 
-    public void addExportNode(Exports exportNode) {
-        exportNodes.add(exportNode);
-    }
-
-    public boolean isClassBodyMissing(SymbolTable symbolTable){
-        for (Row row : symbolTable.getRows()){
-            if (row.getType().equals("class")) {
-                String className = row.getName();
-
-                for (Exports exp : exportNodes) {
-                if (exp.getIds().get(0).equals(className)){
-                    if (exp.getClassBody() == null) {
-                        return true;
-                    }
-                }
+    for (Row row : symbolTable.getRows()) {
+        if (row.getScope().equals(scope)) {
+            if ("selector".equals(row.getName())) {
+                return true;
+            }else {
+                System.err.println("'selector' must be first property in component config. Found '"+ row.getName() +"' instead.");
+                return false;
             }
-            }
-
         }
-        return  false;
     }
-
-
-
+        System.err.println("Semantic error: No properties found in scope: " + scope);
+        return false;
+    }
 }

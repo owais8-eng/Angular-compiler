@@ -10,12 +10,13 @@ import static org.antlr.v4.runtime.CharStreams.fromFileName;
 public class Main {
     public static void main(String[] args) throws IOException {
 
+
         // Important : to print Symbol table comment visit method in BaseVisitor
-        String source = "App-test.txt";
+         String source = "App-test.txt";
          // String source = "test1.txt";
-        //  String source = "test2.txt";
-        // String source = "test3.txt";
-        //String source = "test4.txt";
+         //  String source = "test2.txt";
+         // String source = "test3.txt";
+         // String source = "test4.txt";
         CharStream charStream = fromFileName(source);
 
         AngLexer lexer = new AngLexer(charStream);
@@ -26,14 +27,11 @@ public class Main {
          //this for AST
         BaseVisitor visitor = new BaseVisitor();
         App app = (App) visitor.visit(tree);
-        SemanticCheck semanticCheck = new SemanticCheck(visitor.symbolTable);
-        boolean ok = semanticCheck.checkNonvoidFunctionReturn(visitor.symbolTable);
-        if (!ok) {
-            System.out.println("Semantic errors found.");
-        } else {
-            System.out.println("Semantic checks passed.");
-        }
+
 
         System.out.println(app);
+
+
+
     }
 }
