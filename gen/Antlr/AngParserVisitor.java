@@ -35,11 +35,26 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassBody(AngParser.ClassBodyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#decorater}.
+	 * Visit a parse tree produced by the {@code componentDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDecorater(AngParser.DecoraterContext ctx);
+	T visitComponentDecorator(AngParser.ComponentDecoratorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code directiveDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDirectiveDecorator(AngParser.DirectiveDecoratorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code injectableDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInjectableDecorator(AngParser.InjectableDecoratorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#componentConfig}.
 	 * @param ctx the parse tree

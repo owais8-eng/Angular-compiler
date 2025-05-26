@@ -632,6 +632,66 @@ public class AngParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class DecoraterContext extends ParserRuleContext {
+		public DecoraterContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_decorater; }
+	 
+		public DecoraterContext() { }
+		public void copyFrom(DecoraterContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class DirectiveDecoratorContext extends DecoraterContext {
+		public TerminalNode AT() { return getToken(AngParser.AT, 0); }
+		public TerminalNode DIRECTIVE() { return getToken(AngParser.DIRECTIVE, 0); }
+		public TerminalNode OPEN_PAREN() { return getToken(AngParser.OPEN_PAREN, 0); }
+		public DirectiveConfigContext directiveConfig() {
+			return getRuleContext(DirectiveConfigContext.class,0);
+		}
+		public TerminalNode CLOSE_PAREN() { return getToken(AngParser.CLOSE_PAREN, 0); }
+		public DirectiveDecoratorContext(DecoraterContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).enterDirectiveDecorator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).exitDirectiveDecorator(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AngParserVisitor ) return ((AngParserVisitor<? extends T>)visitor).visitDirectiveDecorator(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InjectableDecoratorContext extends DecoraterContext {
+		public TerminalNode AT() { return getToken(AngParser.AT, 0); }
+		public TerminalNode INJECTABLE() { return getToken(AngParser.INJECTABLE, 0); }
+		public TerminalNode OPEN_PAREN() { return getToken(AngParser.OPEN_PAREN, 0); }
+		public InjectableConfigContext injectableConfig() {
+			return getRuleContext(InjectableConfigContext.class,0);
+		}
+		public TerminalNode CLOSE_PAREN() { return getToken(AngParser.CLOSE_PAREN, 0); }
+		public InjectableDecoratorContext(DecoraterContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).enterInjectableDecorator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).exitInjectableDecorator(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AngParserVisitor ) return ((AngParserVisitor<? extends T>)visitor).visitInjectableDecorator(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class ComponentDecoratorContext extends DecoraterContext {
 		public TerminalNode AT() { return getToken(AngParser.AT, 0); }
 		public TerminalNode COMPONENT() { return getToken(AngParser.COMPONENT, 0); }
 		public TerminalNode OPEN_PAREN() { return getToken(AngParser.OPEN_PAREN, 0); }
@@ -639,29 +699,18 @@ public class AngParser extends Parser {
 			return getRuleContext(ComponentConfigContext.class,0);
 		}
 		public TerminalNode CLOSE_PAREN() { return getToken(AngParser.CLOSE_PAREN, 0); }
-		public TerminalNode DIRECTIVE() { return getToken(AngParser.DIRECTIVE, 0); }
-		public DirectiveConfigContext directiveConfig() {
-			return getRuleContext(DirectiveConfigContext.class,0);
-		}
-		public TerminalNode INJECTABLE() { return getToken(AngParser.INJECTABLE, 0); }
-		public InjectableConfigContext injectableConfig() {
-			return getRuleContext(InjectableConfigContext.class,0);
-		}
-		public DecoraterContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_decorater; }
+		public ComponentDecoratorContext(DecoraterContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).enterDecorater(this);
+			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).enterComponentDecorator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).exitDecorater(this);
+			if ( listener instanceof AngParserListener ) ((AngParserListener)listener).exitComponentDecorator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AngParserVisitor ) return ((AngParserVisitor<? extends T>)visitor).visitDecorater(this);
+			if ( visitor instanceof AngParserVisitor ) return ((AngParserVisitor<? extends T>)visitor).visitComponentDecorator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -674,6 +723,7 @@ public class AngParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
+				_localctx = new ComponentDecoratorContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(167);
@@ -689,6 +739,7 @@ public class AngParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new DirectiveDecoratorContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(173);
@@ -704,6 +755,7 @@ public class AngParser extends Parser {
 				}
 				break;
 			case 3:
+				_localctx = new InjectableDecoratorContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(179);

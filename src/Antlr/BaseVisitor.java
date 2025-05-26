@@ -41,85 +41,60 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
 
     @Override
-    public ASTNode visitComponentConfig(AngParser.ComponentConfigContext ctx) {
+    public decorater visitComponentDecorator(AngParser.ComponentDecoratorContext ctx) {
+        decorater decorater = new decorater();
+        decorater.setType("Component");
+
+        ComponentConfig config = (ComponentConfig) visit(ctx.componentConfig());
+        decorater.setConfig(config);
 
         String componentScope = "Component" ;
         scopeStack.push(componentScope);
 
-       Selector selector = (Selector) visit(ctx.selector());
-
-
-        TemplateUrl templateUrl = ctx.templateUrl() != null ? (TemplateUrl) visit(ctx.templateUrl()) : null;
-        Template template = ctx.template() != null ? (Template) visit(ctx.template()) : null;
-
-        StyleUrls styleUrls = ctx.styleUrls() != null ? (StyleUrls) visit(ctx.styleUrls()) : null;
-
-        ComponentConfig componentConfig = new ComponentConfig(selector, templateUrl, template, styleUrls);
-
-
-        String value = "selector " + selector.getValue()+",";
-        if (templateUrl != null) value+= "templateUrl: " + templateUrl.getValue();
-        if (template != null) value+= "template: " + template.getValue();
-        if (styleUrls != null) value += "styleUrls: " + styleUrls.getValues();
-        symbolTable.add(
-                "Component",
-                "ComponentConfig",
-                value,
-               componentScope
-        );
-
-
-         scopeStack.pop();
-         return componentConfig;
-    }
+        String value = config != null ? config.toString() : "no-config";
+        symbolTable.add("component", "Component", value, componentScope);
+        scopeStack.pop();
+        return decorater;
+     }
 
     @Override
-    public ASTNode visitDirectiveConfig(AngParser.DirectiveConfigContext ctx) {
-        Selector selector = (Selector) visit(ctx.selector());
+    public decorater visitDirectiveDecorator(AngParser.DirectiveDecoratorContext ctx) {
+         decorater decorater = new decorater();
+         decorater.setType("Directive");
 
-        String directiveScope = "derective: ";
-        scopeStack.push(directiveScope);
-        symbolTable.add(
-               "Directive",
-                "DirectiveConfig",
-                "Directive",
-                getCurrentScope()
-        );
-        DirectiveConfig directiveConfig = new DirectiveConfig(selector);
+         DirectiveConfig config = (DirectiveConfig) visit(ctx.directiveConfig());
+         decorater.setConfig(config);
+
+        String componentScope = "Component" ;
+        scopeStack.push(componentScope);
+
+        String value = config != null ? config.toString() : "no config";
+        symbolTable.add("directive", "Directive", value, componentScope);
         scopeStack.pop();
-        return directiveConfig;
 
+        return  decorater;
     }
-
     @Override
-    public ASTNode visitInjectableConfig(AngParser.InjectableConfigContext ctx) {
-         String providerName = ctx.parent.getChild(0).getText();
+    public decorater visitInjectableDecorator(AngParser.InjectableDecoratorContext ctx) {
+        decorater decoratorNode = new decorater();
+        decoratorNode.setType("Injectable");
 
-        String providedIn;
-        if (ctx.PROVIDED_IN_ROOT() != null) {
-            providedIn = ctx.PROVIDED_IN_ROOT().getText();
-        } else if (ctx.PROVIDED_IN_PLATFORM() != null) {
-            providedIn = ctx.PROVIDED_IN_PLATFORM().getText();
-        } else if (ctx.PROVIDED_IN_ANY() != null) {
-            providedIn = ctx.PROVIDED_IN_ANY().getText();
-        } else if (ctx.SingleLineString() != null) {
-            String raw = ctx.SingleLineString().getText();
-            providedIn = raw.substring(1, raw.length() - 1); // Remove surrounding quotes
-        } else {
-            providedIn = "unknown";
-        }
-        String scope = "injectable: " +providedIn;
-        scopeStack.push(scope);
+        InjectableConfig config = (InjectableConfig) visit(ctx.injectableConfig());
+        decoratorNode.setConfig(config);
 
-        symbolTable.add(
-                providerName,
-                "Injectable",
-                "providedIn" + providedIn,
-                getCurrentScope()
-        );
+        String componentScope = "Component" ;
+        scopeStack.push(componentScope);
+
+
+        String value = config != null ? config.toString() : "no config";
+        symbolTable.add("injectable", "Injectable", value, componentScope);
+
         scopeStack.pop();
-        return new InjectableConfig(providedIn);
+        return decoratorNode;
     }
+
+
+
 
     @Override
     public ASTNode visitTemplate(AngParser.TemplateContext ctx) {
@@ -144,7 +119,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
                 );
             }
         }
-
         return template;
     }
     @Override
@@ -251,10 +225,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
       symbolTable.print();
         SemanticCheck semanticCheck = new SemanticCheck();
         semanticCheck.setSymbolTable(this.symbolTable);
-       // semanticCheck.isFunctionReturnTypeMismatched(symbolTable);
-       semanticCheck.isClassBodyMissing(symbolTable);
-      // semanticCheck.checkDuplicateComponentSelector(symbolTable);
-       //semanticCheck.checkSelectorIsFirst(symbolTable,getCurrentScope());
+        semanticCheck.check();
       return app;
     }
 
@@ -341,6 +312,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return exports;
     }
 
+
     @Override
     public classBody visitClassBody(AngParser.ClassBodyContext ctx) {
         classBody body = new classBody();
@@ -383,50 +355,10 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
               value.toString(),
               scope
       );
-
-
-        return body;
-
-        }
-    @Override
-    public decorater visitDecorater(AngParser.DecoraterContext ctx) {
-
-        decorater decoratorNode = new decorater();
-
-          String type = null;
-        if (ctx.COMPONENT() != null) {
-            type = "Component";
-            decoratorNode.setType(type);
-        } else if (ctx.DIRECTIVE() != null) {
-            type = "Directive";
-            decoratorNode.setType(type);
-        } else if (ctx.INJECTABLE() != null) {
-            type = "Injectable";
-            decoratorNode.setType(type);
+      return body;
         }
 
-         ASTNode config = null;
-        if (ctx.componentConfig() != null) config = visit(ctx.componentConfig());
-        else if (ctx.directiveConfig() != null) {
-           config=visit(ctx.directiveConfig()) ;
-        } else if (ctx.injectableConfig() != null) {
-           config = visit(ctx.injectableConfig());
-        }
-        decoratorNode.setConfig(config);
 
-        if (type != null) {
-            String scope = getCurrentScope();
-            String value = config !=null ? config.toString() :" no config";
-
-            symbolTable.add(
-                    type.toLowerCase(),
-                    decoratorNode.getType(),
-                    value,
-                    scope
-            );
-        }
-        return decoratorNode;
-    }
 
 
     @Override
@@ -1068,8 +1000,14 @@ scopeStack.pop();
 
     @Override
     public thisCall visitThisCall(AngParser.ThisCallContext ctx) {
+
         thisCall call= new thisCall();
-        call.setId(ctx.ID().toString());
+
+        String propertyName = null;
+        if (ctx.ID() != null) {
+            propertyName = ctx.ID().toString();
+            call.setId(propertyName);
+        }
 
         if (ctx.variableValue() != null) {
             call.setVariableValues((VariableValue) visit(ctx.variableValue()));
@@ -1084,18 +1022,14 @@ scopeStack.pop();
         call.setDotdots(dots);
 
         StringBuilder valueStr = new StringBuilder();
-
-
         if (call.getId() != null) {
             valueStr.append("id: ").append(call.getId());
         }
-
 
         if (call.getVariableValues() != null) {
             if (valueStr.length() > 0) valueStr.append(", ");
             valueStr.append("variableValues: ").append(call.getVariableValues());
         }
-
 
         if (!dots.isEmpty()) {
             if (valueStr.length() > 0) valueStr.append(", ");
@@ -1104,7 +1038,7 @@ scopeStack.pop();
         symbolTable.add(
                 call.getId(),
                 call.getType(),
-                call.getId() + call.getVariableValues(),
+                call.getId() + (call.getVariableValues() != null ? call.getVariableValues().toString() : ""),
                 getCurrentScope()
 
         );

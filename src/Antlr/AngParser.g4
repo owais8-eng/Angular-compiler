@@ -10,9 +10,9 @@ exports : decorater* EXPORT CLASS ID ((IMPLEMENT | EXTEND) ID)?  classBody ;
 classBody: OPEN_BRACE (constructor | variable | function | interfaceCode)* CLOSE_BRACE ;
 
 decorater
-  : AT COMPONENT OPEN_PAREN componentConfig CLOSE_PAREN
-  | AT DIRECTIVE OPEN_PAREN directiveConfig CLOSE_PAREN
-  | AT INJECTABLE OPEN_PAREN injectableConfig CLOSE_PAREN
+  : AT COMPONENT OPEN_PAREN componentConfig CLOSE_PAREN       #componentDecorator
+  | AT DIRECTIVE OPEN_PAREN directiveConfig CLOSE_PAREN       #directiveDecorator
+  | AT INJECTABLE OPEN_PAREN injectableConfig CLOSE_PAREN     #injectableDecorator
   ;
 componentConfig: OPEN_BRACE selector COMMA (templateUrl | template) (COMMA styleUrls)? CLOSE_BRACE ;
 directiveConfig: OPEN_BRACE selector CLOSE_BRACE ;

@@ -65,13 +65,37 @@ public class AngParserBaseListener implements AngParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDecorater(AngParser.DecoraterContext ctx) { }
+	@Override public void enterComponentDecorator(AngParser.ComponentDecoratorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDecorater(AngParser.DecoraterContext ctx) { }
+	@Override public void exitComponentDecorator(AngParser.ComponentDecoratorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDirectiveDecorator(AngParser.DirectiveDecoratorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDirectiveDecorator(AngParser.DirectiveDecoratorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInjectableDecorator(AngParser.InjectableDecoratorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInjectableDecorator(AngParser.InjectableDecoratorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

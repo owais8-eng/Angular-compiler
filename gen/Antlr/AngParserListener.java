@@ -48,15 +48,41 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitClassBody(AngParser.ClassBodyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#decorater}.
+	 * Enter a parse tree produced by the {@code componentDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
 	 * @param ctx the parse tree
 	 */
-	void enterDecorater(AngParser.DecoraterContext ctx);
+	void enterComponentDecorator(AngParser.ComponentDecoratorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#decorater}.
+	 * Exit a parse tree produced by the {@code componentDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
 	 * @param ctx the parse tree
 	 */
-	void exitDecorater(AngParser.DecoraterContext ctx);
+	void exitComponentDecorator(AngParser.ComponentDecoratorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code directiveDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
+	 * @param ctx the parse tree
+	 */
+	void enterDirectiveDecorator(AngParser.DirectiveDecoratorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code directiveDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
+	 * @param ctx the parse tree
+	 */
+	void exitDirectiveDecorator(AngParser.DirectiveDecoratorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code injectableDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
+	 * @param ctx the parse tree
+	 */
+	void enterInjectableDecorator(AngParser.InjectableDecoratorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code injectableDecorator}
+	 * labeled alternative in {@link AngParser#decorater}.
+	 * @param ctx the parse tree
+	 */
+	void exitInjectableDecorator(AngParser.InjectableDecoratorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#componentConfig}.
 	 * @param ctx the parse tree

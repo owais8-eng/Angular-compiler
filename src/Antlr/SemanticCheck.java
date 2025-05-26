@@ -9,6 +9,16 @@ import java.util.*;
 
 public class SemanticCheck {
 
+    private String currentScope;
+    private String propertyName;
+
+    public void setCurrentScope(String currentScope) {
+        this.currentScope = currentScope;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
 
     private  SymbolTable symbolTable;
 
@@ -27,30 +37,47 @@ public class SemanticCheck {
     }
 
     boolean check(){
-              return true;
+
+        if (checkDuplicateComponentSelector(this.symbolTable)){
+            System.err.println("Semantic error :Duplicate selector found ");
+            return true;
+        } else if (isClassBodyMissing(this.symbolTable)) {
+            System.err.println("semantic error  class should have a body");
+            return  true;
+        } else if (isFunctionReturnTypeMismatched(this.symbolTable)) {
+            System.err.println("MisMatch datatype in function ");
+             return  true;
+        } else if (!isValidTempleteUrl(symbolTable)) {
+            System.err.println("Semantic error: 'templateUrl' must end with '.html'. Found: ");
+            return true;
+        } else if (!isVariableRedefinedInSameScope(symbolTable)) {
+            System.err.println("Semantic error : Variable is already in this  scope ");
+            return true;
+        }else
+
+        return false;
     }
 
     boolean checkDuplicateComponentSelector(SymbolTable symbolTable) {
+
     Set<String> seenSelectors = new HashSet<>();
-          boolean hasDuplicates = false;
-    for (Row row : symbolTable.getRows()) {
-       if (row != null && "selector".equals(row.getName()))
-       {
-           String selector = row.getValue();
-           if (!seenSelectors.contains(selector)) {
-               System.err.println("Semantic error :Duplicate selector found ->' "+ selector + "'");
-               hasDuplicates = true;
-           }
-           seenSelectors.add(selector);
-       }
-    }
-    return !hasDuplicates;
+     boolean hasDuplicates = false;
+          for (Row row : symbolTable.getRows()) {
+               if (row != null && "selector".equals(row.getName()))
+               {
+                   String selector = row.getValue();
+                  if (!seenSelectors.contains(selector)) {
+                     hasDuplicates = false;
+                  }
+                  seenSelectors.add(selector);
+               }
+          }
+          return hasDuplicates;
     }
 
     public boolean isClassBodyMissing(SymbolTable symbolTable) {
      for (Row row :symbolTable.getRows()) {
          if (row.getType().equals("class") && row.getValue().equals("class_missing_body")){
-             System.err.println("semantic error '" + row.getName() + "' class should have a body");
              return true;
          }
      }
@@ -73,7 +100,6 @@ public class SemanticCheck {
                 String declared = parts[0].trim();
                 String actual = parts[1].trim();
                 if (!declared.equals(actual)) {
-                    System.err.println("MisMatch datatype in function :" + row.getName());
                     return true;
                 }
             }
@@ -96,4 +122,71 @@ public class SemanticCheck {
         System.err.println("Semantic error: No properties found in scope: " + scope);
         return false;
     }
+
+    public boolean isValidTempleteUrl(SymbolTable symbolTable){
+        boolean isValid = true;
+
+        for (Row row : symbolTable.getRows()) {
+            if ("templateUrl".equals(row.getName())) {
+                String value = row.getValue();
+                if (value == null || !value.endsWith(".html")) {
+                    isValid = false;
+                }
+            }
+        }
+        return isValid;
+    }
+
+    public boolean isValidStyleUrls(SymbolTable symbolTable) {
+        boolean isValid = true;
+
+        for (Row row : symbolTable.getRows()) {
+            if ("Styleurls".equals(row.getName())) {
+                String value = row.getValue();
+                if (value != null && value.startsWith("[") && value.endsWith("]")) {
+                    String inner = value.substring(1, value.length() - 1); // remove brackets
+                    String[] styles = inner.split(",");
+                    for (String style : styles) {
+                        String trimmed = style.trim().replace("\"", "").replace("'", "");
+                        if (!trimmed.endsWith(".css")) {
+                            System.err.println("Semantic error: 'styleUrls' element must end with '.css'. Found: " + trimmed);
+                            isValid = false;
+                        }
+                    }
+                } else if (value != null && !value.endsWith(".css")) {
+                    isValid = false;
+                }
+            }
+        }
+
+        return isValid;
+    }
+
+    public boolean isVariableRedefinedInSameScope(SymbolTable symbolTable) {
+
+        Set<String> seen = new HashSet<>();
+        for (Row row : symbolTable.getRows()) {
+            String key = row.getName() + "@" + row.getScope();
+
+            if (seen.contains(key)) {
+                return false;
+            }
+            seen.add(key);
+        }
+        return true;
+
+     }
+/*
+    public boolean checkUndefinedPropertyAccess(SymbolTable symbolTable) {
+        if (currentScope == null || propertyName == null) {
+            throw new IllegalStateException("Current scope and property name must be set.");
+        }
+        for (Row row : symbolTable.getRows()) {
+            if (row.getScope().equals(currentScope) && row.getName().equals(propertyName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+*/
 }

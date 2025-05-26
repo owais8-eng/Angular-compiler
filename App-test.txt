@@ -8,12 +8,12 @@ import { ExampleComponent } from "./example/example.component";
 
 @Component({
    selector: "app-root",
-   templateUrl:"app-root.html",
+   templateUrl: "app-root.html",
    styles: ["app-root.css"]
+
+
 })
 export class ProfilePhoto{
+
 }
-
-
-
 
