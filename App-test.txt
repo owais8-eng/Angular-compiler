@@ -7,13 +7,12 @@ import { AppComponent } from "./app.component";
 import { ExampleComponent } from "./example/example.component";
 
 @Component({
-   selector: "app-root",
+
    templateUrl: "app-root.html",
+    selector: "app-root",
    styles: ["app-root.css"]
 
-
 })
-export class ProfilePhoto{
-
-}
+export class ProfilePhoto
+{}
 

@@ -36,43 +36,47 @@ public class SemanticCheck {
 
     }
 
-    boolean check(){
+    boolean check(SymbolTable symbolTable){
+       boolean isValid = true;
 
-        if (checkDuplicateComponentSelector(this.symbolTable)){
+        if (!checkDuplicateComponentSelector(this.symbolTable)){
             System.err.println("Semantic error :Duplicate selector found ");
-            return true;
-        } else if (isClassBodyMissing(this.symbolTable)) {
+            isValid = false;
+        }
+        if (isClassBodyMissing(this.symbolTable)) {
             System.err.println("semantic error  class should have a body");
-            return  true;
-        } else if (isFunctionReturnTypeMismatched(this.symbolTable)) {
+            isValid =  false;
+        }
+        if (isFunctionReturnTypeMismatched(this.symbolTable)) {
             System.err.println("MisMatch datatype in function ");
-             return  true;
-        } else if (!isValidTempleteUrl(symbolTable)) {
+             isValid =  false;
+        }
+        if (!isValidTempleteUrl(symbolTable)) {
             System.err.println("Semantic error: 'templateUrl' must end with '.html'. Found: ");
-            return true;
-        } else if (!isVariableRedefinedInSameScope(symbolTable)) {
+            isValid =  false;
+        }
+        if (!isVariableRedefinedInSameScope(symbolTable)) {
             System.err.println("Semantic error : Variable is already in this  scope ");
-            return true;
-        }else
+            isValid =  false;
+        }
 
-        return false;
+        return isValid;
     }
 
     boolean checkDuplicateComponentSelector(SymbolTable symbolTable) {
-
     Set<String> seenSelectors = new HashSet<>();
-     boolean hasDuplicates = false;
+
           for (Row row : symbolTable.getRows()) {
                if (row != null && "selector".equals(row.getName()))
                {
                    String selector = row.getValue();
-                  if (!seenSelectors.contains(selector)) {
-                     hasDuplicates = false;
+                  if (seenSelectors.contains(selector)) {
+                   return true;
                   }
                   seenSelectors.add(selector);
                }
           }
-          return hasDuplicates;
+          return false;
     }
 
     public boolean isClassBodyMissing(SymbolTable symbolTable) {
@@ -130,6 +134,7 @@ public class SemanticCheck {
             if ("templateUrl".equals(row.getName())) {
                 String value = row.getValue();
                 if (value == null || !value.endsWith(".html")) {
+
                     isValid = false;
                 }
             }
@@ -176,6 +181,7 @@ public class SemanticCheck {
         return true;
 
      }
+
 /*
     public boolean checkUndefinedPropertyAccess(SymbolTable symbolTable) {
         if (currentScope == null || propertyName == null) {

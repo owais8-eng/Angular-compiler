@@ -31,6 +31,9 @@ public class SymbolTable {
         rows.add(row);
     }
 
+    public void clear() {
+        rows.clear();
+    }
     public void print() {
         if (rows.isEmpty()) {
             System.out.println("Symbol table is empty.");

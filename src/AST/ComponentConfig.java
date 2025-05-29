@@ -8,6 +8,9 @@ public class ComponentConfig extends ASTNode {
     private Template template;
     private StyleUrls styleUrls;
 
+    public  ComponentConfig() {
+        super("ComponentConfig");
+    }
     public ComponentConfig(Selector selector, TemplateUrl templateUrl, Template template, StyleUrls styleUrls) {
         super("ComponentConfig");
         this.selector = selector;

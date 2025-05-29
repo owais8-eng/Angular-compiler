@@ -40,40 +40,84 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
     }
 
 
+
     @Override
     public decorater visitComponentDecorator(AngParser.ComponentDecoratorContext ctx) {
         decorater decorater = new decorater();
         decorater.setType("Component");
 
-        ComponentConfig config = (ComponentConfig) visit(ctx.componentConfig());
-        decorater.setConfig(config);
+
 
         String componentScope = "Component" ;
         scopeStack.push(componentScope);
 
-        String value = config != null ? config.toString() : "no-config";
+        ComponentConfig config = (ComponentConfig) visit(ctx.componentConfig());
+        decorater.setConfig(config);
+
+        String selector = (config != null && config.getSelector() != null)
+                ? config.getSelector().toString() : "undefined";
+
+        String templateUrl = (config != null && config.getTemplateUrl() != null)
+                ? config.getTemplateUrl().toString() : "undefined";
+
+        String styles = (config != null && config.getStyleUrls() != null)
+                ? String.join(", ", config.getStyleUrls().toString()) : "[]";
+
+        String value = String.format("selector=%s, templateUrl=%s, styles=[%s]",
+                selector, templateUrl, styles);
+
         symbolTable.add("component", "Component", value, componentScope);
         scopeStack.pop();
         return decorater;
      }
+    @Override
+    public ComponentConfig visitComponentConfig(AngParser.ComponentConfigContext ctx) {
+        ComponentConfig config = new ComponentConfig();
+        ASTNode selectorNode = visitSelector(ctx.selector());
+        config.setSelector((Selector) selectorNode);
+
+
+        if (ctx.templateUrl() != null) {
+            config.setTemplateUrl((TemplateUrl) visit(ctx.templateUrl()));
+        } else if (ctx.template() != null) {
+            config.setTemplate((Template) visit(ctx.template()));
+        }
+
+        if (ctx.styleUrls() != null) {
+            config.setStyleUrls((StyleUrls) visit(ctx.styleUrls()));
+        }
+
+        return config;
+    }
+
 
     @Override
     public decorater visitDirectiveDecorator(AngParser.DirectiveDecoratorContext ctx) {
          decorater decorater = new decorater();
          decorater.setType("Directive");
 
-         DirectiveConfig config = (DirectiveConfig) visit(ctx.directiveConfig());
-         decorater.setConfig(config);
 
         String componentScope = "Component" ;
         scopeStack.push(componentScope);
 
-        String value = config != null ? config.toString() : "no config";
+        DirectiveConfig config = (DirectiveConfig) visit(ctx.directiveConfig());
+        decorater.setConfig(config);
+
+        String value = (config != null && config.getSelector() != null)
+                ? "selector=" + config.getSelector()
+                : "selector=undefined";
         symbolTable.add("directive", "Directive", value, componentScope);
         scopeStack.pop();
 
         return  decorater;
     }
+    @Override
+    public DirectiveConfig visitDirectiveConfig(AngParser.DirectiveConfigContext ctx) {
+        Selector selector = (Selector) visit(ctx.selector());
+        DirectiveConfig config = new DirectiveConfig(selector);
+        return config;
+    }
+
     @Override
     public decorater visitInjectableDecorator(AngParser.InjectableDecoratorContext ctx) {
         decorater decoratorNode = new decorater();
@@ -86,14 +130,34 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         scopeStack.push(componentScope);
 
 
-        String value = config != null ? config.toString() : "no config";
+        String value = (config != null && config.getProvidedIn() != null)
+                ? "providedIn=" + config.getProvidedIn()
+                : "no config";
         symbolTable.add("injectable", "Injectable", value, componentScope);
 
         scopeStack.pop();
         return decoratorNode;
     }
 
+    @Override
+    public InjectableConfig visitInjectableConfig(AngParser.InjectableConfigContext ctx) {
+        String providedInValue = null;
 
+        if (ctx.PROVIDED_IN_ROOT() != null) {
+            providedInValue = "root";
+        } else if (ctx.PROVIDED_IN_PLATFORM() != null) {
+            providedInValue = "platform";
+        } else if (ctx.PROVIDED_IN_ANY() != null) {
+            providedInValue = "any";
+        } else if (ctx.SingleLineString() != null) {
+            providedInValue = stripQuotes(ctx.SingleLineString().getText());
+        }
+
+        return new InjectableConfig(providedInValue);
+    }
+    private String stripQuotes(String s) {
+        return s.replaceAll("^\"|\"$", "");
+    }
 
 
     @Override
@@ -148,7 +212,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return templateUrl;
     }
 
-
     @Override
     public ASTNode visitStyleUrls(AngParser.StyleUrlsContext ctx) {
       StyleUrls styleUrls = new StyleUrls();
@@ -167,8 +230,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
       );
       return styleUrls;
     }
-
-
 
     @Override
     public ASTNode visitSelector(AngParser.SelectorContext ctx) {
@@ -192,7 +253,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
     @Override
     public App visitApp(AngParser.AppContext ctx) {
       App app = new App();
-      Row row = new Row();
+        symbolTable.clear();
+        Row row = new Row();
 
       List<ImportR>  importRS=  new ArrayList<>();
       List<function> functions = new ArrayList<>();
@@ -225,7 +287,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
       symbolTable.print();
         SemanticCheck semanticCheck = new SemanticCheck();
         semanticCheck.setSymbolTable(this.symbolTable);
-        semanticCheck.check();
+        semanticCheck.check(this.symbolTable);
+        semanticCheck.checkSelectorIsFirst(this.symbolTable,getCurrentScope());
       return app;
     }
 
