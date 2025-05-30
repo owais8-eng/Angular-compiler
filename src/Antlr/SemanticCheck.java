@@ -1,7 +1,5 @@
-
 package Antlr;
 
-import AST.Exports;
 import AST.Row;
 import AST.SymbolTable;
 
@@ -11,6 +9,11 @@ public class SemanticCheck {
 
     private String currentScope;
     private String propertyName;
+    private SymbolTable symbolTable;
+    Stack<String> scopeStack = new Stack<>();
+
+    public SemanticCheck() {
+    }
 
     public void setCurrentScope(String currentScope) {
         this.currentScope = currentScope;
@@ -20,10 +23,6 @@ public class SemanticCheck {
         this.propertyName = propertyName;
     }
 
-    private  SymbolTable symbolTable;
-
-    Stack<String> scopeStack = new Stack<>();
-
     public SymbolTable getsymbolTable() {
         return symbolTable;
     }
@@ -32,167 +31,150 @@ public class SemanticCheck {
         this.symbolTable = symbolTable;
     }
 
-    public SemanticCheck() {
+    public boolean check(SymbolTable fullTable) {
+        boolean isValid = true;
 
-    }
-
-    boolean check(SymbolTable symbolTable){
-       boolean isValid = true;
-
-        if (!checkDuplicateComponentSelector(this.symbolTable)){
-            System.err.println("Semantic error :Duplicate selector found ");
+        if (!checkDuplicateComponentSelector(fullTable)) {
+            System.err.println("Semantic error: Duplicate selector found.");
             isValid = false;
         }
-        if (isClassBodyMissing(this.symbolTable)) {
-            System.err.println("semantic error  class should have a body");
-            isValid =  false;
+
+        if (isFunctionReturnTypeMismatched(fullTable)) {
+            System.err.println("Semantic error: Mismatched datatype in function return.");
+            isValid = false;
         }
-        if (isFunctionReturnTypeMismatched(this.symbolTable)) {
-            System.err.println("MisMatch datatype in function ");
-             isValid =  false;
+
+        if (!isValidTemplateUrl(fullTable)) {
+            System.err.println("Semantic error: 'templateUrl' must end with '.html'.");
+            isValid = false;
         }
-        if (!isValidTempleteUrl(symbolTable)) {
-            System.err.println("Semantic error: 'templateUrl' must end with '.html'. Found: ");
-            isValid =  false;
+
+        if (isValidStyleUrls(fullTable)) {
+            System.err.println("Semantic error: 'styleUrls' elements must end with '.css'.");
+            isValid = false;
         }
-        if (!isVariableRedefinedInSameScope(symbolTable)) {
-            System.err.println("Semantic error : Variable is already in this  scope ");
-            isValid =  false;
+
+        if (!isVariableRedefinedInSameScope(fullTable)) {
+            System.err.println("Semantic error: Variable is already defined in this scope.");
+            isValid = false;
         }
 
         return isValid;
     }
 
-    boolean checkDuplicateComponentSelector(SymbolTable symbolTable) {
-    Set<String> seenSelectors = new HashSet<>();
 
-          for (Row row : symbolTable.getRows()) {
-               if (row != null && "selector".equals(row.getName()))
-               {
-                   String selector = row.getValue();
-                  if (seenSelectors.contains(selector)) {
-                   return true;
-                  }
-                  seenSelectors.add(selector);
-               }
-          }
-          return false;
-    }
+    boolean checkDuplicateComponentSelector(SymbolTable fullTable) {
+        SymbolTable selectorTable = filterRowsByName(fullTable, "selector");
+        Set<String> seenSelectors = new HashSet<>();
 
-    public boolean isClassBodyMissing(SymbolTable symbolTable) {
-     for (Row row :symbolTable.getRows()) {
-         if (row.getType().equals("class") && row.getValue().equals("class_missing_body")){
-             return true;
-         }
-     }
-     return false;
-    }
-
-    public boolean isFunctionReturnTypeMismatched(SymbolTable symbolTable){
-        for (Row row :symbolTable.getRows()) {
-
-            if (row.getType().equals("function")) {
-                String value = row.getValue();
-                if (value == null && value.trim().isEmpty()) {
-                    continue;
-                }
-                if (!value.contains(":")) {
-
-                    continue;
-                }
-                String[] parts =value.split(":");
-                String declared = parts[0].trim();
-                String actual = parts[1].trim();
-                if (!declared.equals(actual)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean checkSelectorIsFirst(SymbolTable symbolTable ,String scope) {
-
-    for (Row row : symbolTable.getRows()) {
-        if (row.getScope().equals(scope)) {
-            if ("selector".equals(row.getName())) {
+        for (Row row : selectorTable.getRows()) {
+            String selector = row.getValue();
+            if (seenSelectors.contains(selector)) {
                 return true;
-            }else {
-                System.err.println("'selector' must be first property in component config. Found '"+ row.getName() +"' instead.");
-                return false;
             }
+            seenSelectors.add(selector);
         }
-    }
-        System.err.println("Semantic error: No properties found in scope: " + scope);
         return false;
     }
 
-    public boolean isValidTempleteUrl(SymbolTable symbolTable){
-        boolean isValid = true;
 
-        for (Row row : symbolTable.getRows()) {
-            if ("templateUrl".equals(row.getName())) {
-                String value = row.getValue();
-                if (value == null || !value.endsWith(".html")) {
+    public boolean isFunctionReturnTypeMismatched(SymbolTable fullTable) {
+        SymbolTable functionTable = filterRowsByType(fullTable, "function");
 
-                    isValid = false;
-                }
+        for (Row row : functionTable.getRows()) {
+            String value = row.getValue();
+            if (value == null || value.trim().isEmpty()) continue;
+            if (!value.contains(":")) continue;
+
+            String[] parts = value.split(":");
+            String declared = parts[0].trim();
+            String actual = parts[1].trim();
+
+            if (!declared.equals(actual)) {
+                return true;
             }
         }
-        return isValid;
+        return false;
     }
 
-    public boolean isValidStyleUrls(SymbolTable symbolTable) {
-        boolean isValid = true;
 
-        for (Row row : symbolTable.getRows()) {
-            if ("Styleurls".equals(row.getName())) {
-                String value = row.getValue();
-                if (value != null && value.startsWith("[") && value.endsWith("]")) {
-                    String inner = value.substring(1, value.length() - 1); // remove brackets
-                    String[] styles = inner.split(",");
-                    for (String style : styles) {
-                        String trimmed = style.trim().replace("\"", "").replace("'", "");
-                        if (!trimmed.endsWith(".css")) {
-                            System.err.println("Semantic error: 'styleUrls' element must end with '.css'. Found: " + trimmed);
-                            isValid = false;
-                        }
-                    }
-                } else if (value != null && !value.endsWith(".css")) {
-                    isValid = false;
-                }
-            }
-        }
+    public boolean isValidTemplateUrl(SymbolTable fullTable) {
+        SymbolTable templateTable = filterRowsByName(fullTable, "templateUrl");
 
-        return isValid;
-    }
-
-    public boolean isVariableRedefinedInSameScope(SymbolTable symbolTable) {
-
-        Set<String> seen = new HashSet<>();
-        for (Row row : symbolTable.getRows()) {
-            String key = row.getName() + "@" + row.getScope();
-
-            if (seen.contains(key)) {
+        for (Row row : templateTable.getRows()) {
+            String value = row.getValue();
+            if (value == null || !value.endsWith(".html")) {
                 return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    public boolean isValidStyleUrls(SymbolTable fullTable) {
+        SymbolTable styleTable = filterRowsByName(fullTable, "Styleurls");
+
+        for (Row row : styleTable.getRows()) {
+            String value = row.getValue();
+            if (value == null) continue;
+
+            if (value.startsWith("[") && value.endsWith("]")) {
+                String inner = value.substring(1, value.length() - 1);
+                String[] styles = inner.split(",");
+                for (String style : styles) {
+                    String trimmed = style.trim().replace("\"", "").replace("'", "");
+                    if (!trimmed.endsWith(".css")) {
+                        return false;
+                    }
+                }
+            } else if (!value.endsWith(".css")) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    public boolean isVariableRedefinedInSameScope(SymbolTable fullTable) {
+        SymbolTable vars = new SymbolTable();
+        Set<String> seen = new HashSet<>();
+
+        for (Row row : fullTable.getRows()) {
+            if (row.getType().equals("let") || row.getType().equals("var") || row.getType().equals("const")) {
+                vars.AddRow(row);
+            }
+        }
+
+        for (Row row : vars.getRows()) {
+            String key = row.getName() + "@" + row.getScope();
+            if (seen.contains(key)) {
+                return true;
             }
             seen.add(key);
         }
-        return true;
 
-     }
-
-/*
-    public boolean checkUndefinedPropertyAccess(SymbolTable symbolTable) {
-        if (currentScope == null || propertyName == null) {
-            throw new IllegalStateException("Current scope and property name must be set.");
-        }
-        for (Row row : symbolTable.getRows()) {
-            if (row.getScope().equals(currentScope) && row.getName().equals(propertyName)) {
-                return true;
-            }
-        }
         return false;
     }
-*/
+
+    public SymbolTable filterRowsByName(SymbolTable table, String name) {
+        SymbolTable filtered = new SymbolTable();
+        for (Row row : table.getRows()) {
+            if (name.equals(row.getName())) {
+                filtered.AddRow(row);
+            }
+        }
+        return filtered;
+    }
+
+    public SymbolTable filterRowsByType(SymbolTable table, String type) {
+        SymbolTable filtered = new SymbolTable();
+        for (Row row : table.getRows()) {
+            if (type.equals(row.getType())) {
+                filtered.AddRow(row);
+            }
+        }
+        return filtered;
+    }
 }

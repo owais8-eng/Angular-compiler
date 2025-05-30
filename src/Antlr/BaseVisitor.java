@@ -2,15 +2,13 @@ package Antlr;
 
 import AST.*;
 import AST.Map;
+import SemanticError.SemanticError;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import javax.xml.transform.sax.SAXResult;
-import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.teeing;
 import static java.util.stream.Collectors.toList;
 public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
@@ -18,7 +16,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
     }
 
-    private  SemanticCheck semanticCheck;
+    private SemanticCheck semanticCheck;
 
     public BaseVisitor(SemanticCheck semanticCheck) {
         this.semanticCheck = semanticCheck;
@@ -57,14 +55,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         String selector = (config != null && config.getSelector() != null)
                 ? config.getSelector().toString() : "undefined";
 
-        String templateUrl = (config != null && config.getTemplateUrl() != null)
-                ? config.getTemplateUrl().toString() : "undefined";
-
-        String styles = (config != null && config.getStyleUrls() != null)
-                ? String.join(", ", config.getStyleUrls().toString()) : "[]";
-
-        String value = String.format("selector=%s, templateUrl=%s, styles=[%s]",
-                selector, templateUrl, styles);
+        String value = String.format(
+                selector);
 
         symbolTable.add("component", "Component", value, componentScope);
         scopeStack.pop();
@@ -185,6 +177,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         }
         return template;
     }
+    //this
     @Override
     public ASTNode visitTemplateUrl(AngParser.TemplateUrlContext ctx) {
         TemplateUrl templateUrl = new TemplateUrl();
@@ -211,7 +204,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
         return templateUrl;
     }
-
+//this
     @Override
     public ASTNode visitStyleUrls(AngParser.StyleUrlsContext ctx) {
       StyleUrls styleUrls = new StyleUrls();
@@ -230,7 +223,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
       );
       return styleUrls;
     }
-
+//this
     @Override
     public ASTNode visitSelector(AngParser.SelectorContext ctx) {
         Selector selector = new Selector();
@@ -287,8 +280,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
       symbolTable.print();
         SemanticCheck semanticCheck = new SemanticCheck();
         semanticCheck.setSymbolTable(this.symbolTable);
-        semanticCheck.check(this.symbolTable);
-        semanticCheck.checkSelectorIsFirst(this.symbolTable,getCurrentScope());
+       semanticCheck.check(symbolTable);
+
       return app;
     }
 
@@ -327,7 +320,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return imp;
     }
 
-    //----------Here in Symbol Table-----------
+
     @Override
     public Exports visitExports(AngParser.ExportsContext ctx) {
 
@@ -375,7 +368,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return exports;
     }
 
-
     @Override
     public classBody visitClassBody(AngParser.ClassBodyContext ctx) {
         classBody body = new classBody();
@@ -393,16 +385,19 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
            functions.add((function) visit(ctx.function().get(i)));
 
        }
+       body.setFunctions(functions);
 
         List<interfaceCode> interfaceCodes = new ArrayList<>();
       for (int i =0; i< ctx.interfaceCode().size();i++) {
           interfaceCodes.add((interfaceCode) visit(ctx.interfaceCode().get(i)));
       }
+      body.setInterfaceCodes(interfaceCodes);
 
         List<constructor> constructors = new ArrayList<>();
         for (int i=0;i<ctx.constructor().size();i++) {
             constructors.add((constructor) visit(ctx.constructor().get(i)));
         }
+        body.setConstructors(constructors);
 
         StringBuilder value = new StringBuilder();
 
@@ -421,9 +416,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
       return body;
         }
 
-
-
-
     @Override
     public Map visitMap(AngParser.MapContext ctx) {
      Map map = new Map();
@@ -437,6 +429,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
          }
      }
+
       String scope = getCurrentScope();
      symbolTable.add(
              "map",
@@ -545,7 +538,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         subValue.setCssCode(cssCodes);
 
 
-        // Build a string representation of the subValue
+
         StringBuilder value = new StringBuilder();
         if (subValue.getString() != null) {
             value.append("string: ").append(subValue.getString());
@@ -643,13 +636,13 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
             throw new IllegalArgumentException("Variable name cannot be null or empty.");
         }
         if (type == null || type.isEmpty()) {
-            type = "any";  // fallback type
+            type = "any";
         }
         if (scope == null || scope.isEmpty()) {
             throw new IllegalArgumentException("Current scope cannot be null or empty.");
         }
         if (val == null || val.isEmpty()) {
-            val = "undefined";  // or null if your symbol table accepts
+            val = "undefined";
         }
 
         symbolTable.add(name, type, val, scope);
@@ -747,6 +740,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return value;
 
     }
+
     private String inferVariableValueType(VariableValue value) {
         if (value.getString() != null) return "string";
         if (value.getDecimal() != null) return "number";
@@ -798,9 +792,10 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         vv vv = new vv();
         vv.setString(ctx.ID().getText());
 
-        symbolTable.add("vv", "string", "string: " + vv.getString(), getCurrentScope());
+       symbolTable.add("vv", "string", "string: " + vv.getString(), getCurrentScope());
         return vv;
     }
+
     private String inferTypeFromReturn(returnStatement ret) {
         if (ret == null) return "void";
 
@@ -820,88 +815,82 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return "void"; // fallback
     }
 
-
     @Override
     public function visitFunction(AngParser.FunctionContext ctx) {
-       function fun = new function();
-       if (ctx.ID() != null) {
-           fun.setName(ctx.ID().getText());
-       }
-        String functionScopeName = ctx.ID() != null ? ctx.ID().getText() : "anynomous function";
+        function fun = new function();
+
+        String functionName = (ctx.ID() != null) ? ctx.ID().getText() : null;
+        if (functionName == null || functionName.trim().isEmpty()) {
+            functionName = "anonymous_function_";
+        }
+        fun.setName(functionName);
+
+
+        String functionScopeName = (ctx.ID() != null) ? ctx.ID().getText() : "anonymous_function";
         scopeStack.push(functionScopeName);
 
         List<functionParam> params = new ArrayList<>();
-        for (AngParser.FunctionParamsContext paramsContext : ctx.functionParams()) {
-            if (paramsContext != null) {
-                params.add((functionParam) visit(paramsContext));
+        for (AngParser.FunctionParamsContext paramsCtx : ctx.functionParams()) {
+            if (paramsCtx != null) {
+                params.add((functionParam) visit(paramsCtx));
             }
         }
-
         fun.setFunctionParams(params);
-       if (ctx.vv() != null) {
-          fun.setVv((vv) visit(ctx.vv()));
-       }
 
+        if (ctx.vv() != null) {
+            fun.setVv((vv) visit(ctx.vv()));
+        }
         List<dd> dds = new ArrayList<>();
-        for (AngParser.DdContext ddContext : ctx.dd()) {
-            if (ddContext != null) {
-                dds.add((dd) visit(ddContext));
+        for (AngParser.DdContext ddCtx : ctx.dd()) {
+            if (ddCtx != null) {
+                dds.add((dd) visit(ddCtx));
             }
         }
         fun.setDdList(dds);
 
-
         if (ctx.functionBody() != null) {
             fun.setFunctionBody((functionBody) visit(ctx.functionBody()));
         }
+
         if (ctx.returnStatement() != null) {
             fun.setReturnStatement((returnStatement) visit(ctx.returnStatement()));
         }
 
-
-        StringBuilder valueStr = new StringBuilder();
-        valueStr.append("name: ").append(fun.getName());
-        if (!params.isEmpty()) {
-            valueStr.append(", params: ").append(params);
-        }
         String declaredReturnType = "void";
-        if (ctx.DATATYPE_() != null){
+        if (ctx.DATATYPE_() != null) {
             declaredReturnType = ctx.DATATYPE_().getText();
-        }else if (fun.getVv() != null) {
+        } else if (fun.getVv() != null) {
             declaredReturnType = fun.getVv().toString();
         } else if (!fun.getDdList().isEmpty()) {
             declaredReturnType = fun.getDdList().toString();
         }
-        if (fun.getFunctionBody() != null) {
-            valueStr.append(", functionBody: ").append(fun.getFunctionBody());
-        }
 
-       if (fun.getReturnStatement() != null) {
-           valueStr.append("return statement:").append(fun.getReturnStatement());
-       }
         String actualReturnType;
         returnStatement retStmt = fun.getReturnStatement();
-
         if (retStmt != null) {
             actualReturnType = inferTypeFromReturn(retStmt);
         } else if (fun.getVv() != null) {
-            actualReturnType = fun.getVv().toString(); // declared return type fallback
+            actualReturnType = fun.getVv().toString();
         } else if (!fun.getDdList().isEmpty()) {
-            actualReturnType = fun.getDdList().get(0).toString(); // fallback
+            actualReturnType = fun.getDdList().get(0).toString();
         } else {
             actualReturnType = "void";
         }
 
 
-            symbolTable.add(
-                     fun.getName(),
-                    "function",
-                    declaredReturnType + ":"+ actualReturnType,
-                     functionScopeName);
-           scopeStack.pop();
 
-           return fun;
+        symbolTable.add(
+               functionName,
+                "function",
+                declaredReturnType + ":" + actualReturnType,
+                getCurrentScope()
+        );
+
+        scopeStack.pop();
+
+        return fun;
     }
+
 
     @Override
     public function2 visitFunction2(AngParser.Function2Context ctx) {
@@ -959,7 +948,7 @@ scopeStack.pop();
        dd dd = new dd();
        dd.setDataType(ctx.DATATYPE_().getText());
        symbolTable.add(
-               "dd",
+              "dd",
                dd.getDataType(),
               dd.getDataType(),
                getCurrentScope());
@@ -989,11 +978,11 @@ scopeStack.pop();
     public functionBody visitFunctionBody(AngParser.FunctionBodyContext ctx) {
         functionBody body = new functionBody();
 
-        // Create a unique scope for the function body
-        String functionBodyScopeName = "functionBody:" + ctx.getParent().getText(); // Use function context or a unique identifier
+
+        String functionBodyScopeName = "functionBody:" + ctx.getParent().getText();
       scopeStack.push(functionBodyScopeName);
 
-        // Handle variables in function body
+
         List<Variable> variables = new ArrayList<>();
         for (AngParser.VariableContext variableContext : ctx.variable()) {
             if (variableContext != null) {
@@ -1002,7 +991,7 @@ scopeStack.pop();
         }
         body.setVariables(variables);
 
-        // Handle function calls
+
         List<callFun> callFuns = new ArrayList<>();
         for (AngParser.CallFunContext callFunContext : ctx.callFun()) {
             if (callFunContext != null) {
@@ -1011,7 +1000,7 @@ scopeStack.pop();
         }
         body.setCallFuns(callFuns);
 
-        // Handle print statements
+
         List<Print> prints = new ArrayList<>();
         for (AngParser.PrintContext printContext : ctx.print()) {
             if (printContext != null) {
@@ -1020,7 +1009,7 @@ scopeStack.pop();
         }
         body.setPrints(prints);
 
-        // Handle this calls
+
         List<thisCall> thisCalls = new ArrayList<>();
         for (AngParser.ThisCallContext thisCallContext : ctx.thisCall()) {
             if (thisCallContext != null) {
@@ -1084,7 +1073,7 @@ scopeStack.pop();
         }
         call.setDotdots(dots);
 
-        StringBuilder valueStr = new StringBuilder();
+      StringBuilder valueStr = new StringBuilder();
         if (call.getId() != null) {
             valueStr.append("id: ").append(call.getId());
         }

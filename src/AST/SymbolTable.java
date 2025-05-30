@@ -31,6 +31,11 @@ public class SymbolTable {
         rows.add(row);
     }
 
+    public void AddRow(Row row) {
+        if (row != null) {
+            rows.add(row);
+        }
+    }
     public void clear() {
         rows.clear();
     }
