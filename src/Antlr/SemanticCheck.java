@@ -7,20 +7,9 @@ import java.util.*;
 
 public class SemanticCheck {
 
-    private String currentScope;
-    private String propertyName;
     private SymbolTable symbolTable;
-    Stack<String> scopeStack = new Stack<>();
 
     public SemanticCheck() {
-    }
-
-    public void setCurrentScope(String currentScope) {
-        this.currentScope = currentScope;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
     }
 
     public SymbolTable getsymbolTable() {
@@ -34,7 +23,7 @@ public class SemanticCheck {
     public boolean check(SymbolTable fullTable) {
         boolean isValid = true;
 
-        if (!checkDuplicateComponentSelector(fullTable)) {
+        if (checkDuplicateComponentSelector(fullTable)) {
             System.err.println("Semantic error: Duplicate selector found.");
             isValid = false;
         }
@@ -49,19 +38,18 @@ public class SemanticCheck {
             isValid = false;
         }
 
-        if (isValidStyleUrls(fullTable)) {
+        if (!isValidStyleUrls(fullTable)) {
             System.err.println("Semantic error: 'styleUrls' elements must end with '.css'.");
             isValid = false;
         }
 
-        if (!isVariableRedefinedInSameScope(fullTable)) {
+        if (isVariableRedefinedInSameScope(fullTable)) {
             System.err.println("Semantic error: Variable is already defined in this scope.");
             isValid = false;
         }
 
         return isValid;
     }
-
 
     boolean checkDuplicateComponentSelector(SymbolTable fullTable) {
         SymbolTable selectorTable = filterRowsByName(fullTable, "selector");
@@ -76,7 +64,6 @@ public class SemanticCheck {
         }
         return false;
     }
-
 
     public boolean isFunctionReturnTypeMismatched(SymbolTable fullTable) {
         SymbolTable functionTable = filterRowsByType(fullTable, "function");
@@ -97,7 +84,6 @@ public class SemanticCheck {
         return false;
     }
 
-
     public boolean isValidTemplateUrl(SymbolTable fullTable) {
         SymbolTable templateTable = filterRowsByName(fullTable, "templateUrl");
 
@@ -111,13 +97,20 @@ public class SemanticCheck {
         return true;
     }
 
-
     public boolean isValidStyleUrls(SymbolTable fullTable) {
-        SymbolTable styleTable = filterRowsByName(fullTable, "Styleurls");
+        SymbolTable styleTable = new SymbolTable();
+
+        for (Row row : fullTable.getRows()) {
+            String name = row.getName();
+            if (name != null && (name.equalsIgnoreCase("styleUrls"))) {
+                styleTable.AddRow(row);
+            }
+        }
 
         for (Row row : styleTable.getRows()) {
             String value = row.getValue();
             if (value == null) continue;
+
 
             if (value.startsWith("[") && value.endsWith("]")) {
                 String inner = value.substring(1, value.length() - 1);
@@ -128,14 +121,18 @@ public class SemanticCheck {
                         return false;
                     }
                 }
-            } else if (!value.endsWith(".css")) {
-                return false;
+            }
+
+            else {
+                String trimmed = value.trim().replace("\"", "").replace("'", "");
+                if (!trimmed.endsWith(".css")) {
+                    return false;
+                }
             }
         }
 
         return true;
     }
-
 
     public boolean isVariableRedefinedInSameScope(SymbolTable fullTable) {
         SymbolTable vars = new SymbolTable();
@@ -157,6 +154,8 @@ public class SemanticCheck {
 
         return false;
     }
+
+    //---------Helper Function----------------//
 
     public SymbolTable filterRowsByName(SymbolTable table, String name) {
         SymbolTable filtered = new SymbolTable();

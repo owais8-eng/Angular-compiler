@@ -8,16 +8,16 @@ import { ExampleComponent } from "./example/example.component";
 @Component({
     selector: "app-root",
     templateUrl: "app-root.html",
-    styles: ["app-root.css"]
+    styles: ["app-root.css","app-page.css"]
+
 
 })
 export class ProfilePhoto
 {
 let name = "ows";
 
- add(): string {
+ add():String {
     console.log("aa");
-
 }
 
 }

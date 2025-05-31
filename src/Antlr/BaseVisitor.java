@@ -22,17 +22,20 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         this.semanticCheck = semanticCheck;
     }
 
-    SymbolTable symbolTable = new SymbolTable();
-    private Deque<String> scopeStack = new ArrayDeque<>();
+     SymbolTable symbolTable = new SymbolTable();
+
+     private Deque<String> scopeStack = new ArrayDeque<>();
 
      private String getCurrentScope(){
          return scopeStack.isEmpty() ? "global" :scopeStack.peek();
      }
-    private String getEnclosingScope() {
+
+     private String getEnclosingScope() {
         Iterator<String> it = scopeStack.iterator();
         it.next();
         return it.hasNext() ? it.next() : "global";
     }
+
     public SymbolTable getSymbolTable(){
         return  symbolTable;
     }
@@ -147,6 +150,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
         return new InjectableConfig(providedInValue);
     }
+
     private String stripQuotes(String s) {
         return s.replaceAll("^\"|\"$", "");
     }
@@ -177,7 +181,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         }
         return template;
     }
-    //this
+
     @Override
     public ASTNode visitTemplateUrl(AngParser.TemplateUrlContext ctx) {
         TemplateUrl templateUrl = new TemplateUrl();
@@ -204,7 +208,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
         return templateUrl;
     }
-//this
+
     @Override
     public ASTNode visitStyleUrls(AngParser.StyleUrlsContext ctx) {
       StyleUrls styleUrls = new StyleUrls();
@@ -212,18 +216,20 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
         List<String> values = new ArrayList<>();
       for (SubValue subValue : array.getSubValues()){
-          values.add(subValue.toString());
+          if (subValue.getString() != null){
+          values.add(subValue.getString());
+          }
       }
       styleUrls.setValues(values);
       symbolTable.add(
-              "Styleurls",
-              "Styleurls",
+              "StyleUrls",
+              "StyleUrls",
               String.join(",",values),
               getCurrentScope()
       );
       return styleUrls;
     }
-//this
+
     @Override
     public ASTNode visitSelector(AngParser.SelectorContext ctx) {
         Selector selector = new Selector();
@@ -277,11 +283,15 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
      for (int i =0 ; i<ctx.interfaceCode().size();i++) {
          interfaceCodes.add(visitInterfaceCode(ctx.interfaceCode().get(i)));
      }
-      symbolTable.print();
+
         SemanticCheck semanticCheck = new SemanticCheck();
         semanticCheck.setSymbolTable(this.symbolTable);
-       semanticCheck.check(symbolTable);
-
+        boolean isValid =  semanticCheck.check(symbolTable);
+       if (!isValid) {
+           System.err.println("Semantic Analysis failed ");
+           return null;
+       }
+       else symbolTable.print();
       return app;
     }
 
@@ -891,7 +901,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return fun;
     }
 
-
     @Override
     public function2 visitFunction2(AngParser.Function2Context ctx) {
        function2 fun2 = new function2();
@@ -974,13 +983,12 @@ scopeStack.pop();
         return param;
 
     }
+
     @Override
     public functionBody visitFunctionBody(AngParser.FunctionBodyContext ctx) {
         functionBody body = new functionBody();
 
 
-        String functionBodyScopeName = "functionBody:" + ctx.getParent().getText();
-      scopeStack.push(functionBodyScopeName);
 
 
         List<Variable> variables = new ArrayList<>();
@@ -1045,10 +1053,8 @@ scopeStack.pop();
 
         );
 
-scopeStack.pop();
         return body;
     }
-
 
     @Override
     public thisCall visitThisCall(AngParser.ThisCallContext ctx) {
@@ -1884,12 +1890,9 @@ if (dot.getId() != null && !dot.getId().isEmpty()){
         symbolTable.add(interfaceScope,"interface","Interface definition",getEnclosingScope());
         return interfaceCode;
     }
-//this for print AST
-
 
     private int level = 0;
-/*
-
+    /*
     @Override
     public ASTNode visit(ParseTree tree) {
         if (tree == null) return null;
