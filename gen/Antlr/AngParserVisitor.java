@@ -1,4 +1,4 @@
-// Generated from C:/Users/owais/Desktop/Code/Code/AngularCompiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/owais/Desktop/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
 package Antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -104,11 +104,26 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMap(AngParser.MapContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#value}.
+	 * Visit a parse tree produced by the {@code subValueValue}
+	 * labeled alternative in {@link AngParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(AngParser.ValueContext ctx);
+	T visitSubValueValue(AngParser.SubValueValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arrayValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayValue(AngParser.ArrayValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code htmlValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHtmlValue(AngParser.HtmlValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#array}.
 	 * @param ctx the parse tree
@@ -116,11 +131,33 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArray(AngParser.ArrayContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#subValue}.
+	 * Visit a parse tree produced by the {@code stringSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSubValue(AngParser.SubValueContext ctx);
+	T visitStringSubValue(AngParser.StringSubValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code idSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdSubValue(AngParser.IdSubValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numberSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumberSubValue(AngParser.NumberSubValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code cssBlockSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCssBlockSubValue(AngParser.CssBlockSubValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#variable}.
 	 * @param ctx the parse tree
@@ -128,11 +165,68 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(AngParser.VariableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#variableValue}.
+	 * Visit a parse tree produced by the {@code stringVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVariableValue(AngParser.VariableValueContext ctx);
+	T visitStringVarValue(AngParser.StringVarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numberVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumberVarValue(AngParser.NumberVarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code idVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdVarValue(AngParser.IdVarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arrayVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayVarValue(AngParser.ArrayVarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mapVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMapVarValue(AngParser.MapVarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code thisCallVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThisCallVarValue(AngParser.ThisCallVarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code func2VarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunc2VarValue(AngParser.Func2VarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code callFunVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallFunVarValue(AngParser.CallFunVarValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code funcVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFuncVarValue(AngParser.FuncVarValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#constructor}.
 	 * @param ctx the parse tree
@@ -260,11 +354,19 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAttributeValue(AngParser.AttributeValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#htmlBody}.
+	 * Visit a parse tree produced by the {@code mapHtmlBody}
+	 * labeled alternative in {@link AngParser#htmlBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHtmlBody(AngParser.HtmlBodyContext ctx);
+	T visitMapHtmlBody(AngParser.MapHtmlBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ifHtmlBody}
+	 * labeled alternative in {@link AngParser#htmlBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfHtmlBody(AngParser.IfHtmlBodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#hh}.
 	 * @param ctx the parse tree

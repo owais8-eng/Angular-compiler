@@ -39,7 +39,7 @@ public class SemanticCheck {
         }
 
         if (!isValidStyleUrls(fullTable)) {
-            System.err.println("Semantic error: 'styleUrls' elements must end with '.css'.");
+            System.err.println("Semantic error: 'styles' elements must end with '.css'.");
             isValid = false;
         }
 

@@ -1,4 +1,4 @@
-// Generated from C:/Users/owais/Desktop/Code/Code/AngularCompiler/src/Antlr/AngLexer.g4 by ANTLR 4.13.2
+// Generated from C:/Users/owais/Desktop/Angular-compiler/src/Antlr/AngLexer.g4 by ANTLR 4.13.2
 package Antlr;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

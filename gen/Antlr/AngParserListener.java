@@ -1,4 +1,4 @@
-// Generated from C:/Users/owais/Desktop/Code/Code/AngularCompiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/owais/Desktop/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
 package Antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -164,15 +164,41 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitMap(AngParser.MapContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#value}.
+	 * Enter a parse tree produced by the {@code subValueValue}
+	 * labeled alternative in {@link AngParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue(AngParser.ValueContext ctx);
+	void enterSubValueValue(AngParser.SubValueValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#value}.
+	 * Exit a parse tree produced by the {@code subValueValue}
+	 * labeled alternative in {@link AngParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue(AngParser.ValueContext ctx);
+	void exitSubValueValue(AngParser.SubValueValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arrayValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayValue(AngParser.ArrayValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arrayValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayValue(AngParser.ArrayValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code htmlValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterHtmlValue(AngParser.HtmlValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code htmlValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitHtmlValue(AngParser.HtmlValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#array}.
 	 * @param ctx the parse tree
@@ -184,15 +210,53 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitArray(AngParser.ArrayContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#subValue}.
+	 * Enter a parse tree produced by the {@code stringSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterSubValue(AngParser.SubValueContext ctx);
+	void enterStringSubValue(AngParser.StringSubValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#subValue}.
+	 * Exit a parse tree produced by the {@code stringSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitSubValue(AngParser.SubValueContext ctx);
+	void exitStringSubValue(AngParser.StringSubValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code idSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdSubValue(AngParser.IdSubValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code idSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdSubValue(AngParser.IdSubValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code numberSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberSubValue(AngParser.NumberSubValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code numberSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberSubValue(AngParser.NumberSubValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code cssBlockSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterCssBlockSubValue(AngParser.CssBlockSubValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code cssBlockSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitCssBlockSubValue(AngParser.CssBlockSubValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#variable}.
 	 * @param ctx the parse tree
@@ -204,15 +268,113 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitVariable(AngParser.VariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#variableValue}.
+	 * Enter a parse tree produced by the {@code stringVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariableValue(AngParser.VariableValueContext ctx);
+	void enterStringVarValue(AngParser.StringVarValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#variableValue}.
+	 * Exit a parse tree produced by the {@code stringVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariableValue(AngParser.VariableValueContext ctx);
+	void exitStringVarValue(AngParser.StringVarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code numberVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberVarValue(AngParser.NumberVarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code numberVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberVarValue(AngParser.NumberVarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code idVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdVarValue(AngParser.IdVarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code idVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdVarValue(AngParser.IdVarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arrayVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayVarValue(AngParser.ArrayVarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arrayVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayVarValue(AngParser.ArrayVarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mapVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterMapVarValue(AngParser.MapVarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mapVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitMapVarValue(AngParser.MapVarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code thisCallVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterThisCallVarValue(AngParser.ThisCallVarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code thisCallVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitThisCallVarValue(AngParser.ThisCallVarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code func2VarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunc2VarValue(AngParser.Func2VarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code func2VarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunc2VarValue(AngParser.Func2VarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code callFunVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallFunVarValue(AngParser.CallFunVarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code callFunVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallFunVarValue(AngParser.CallFunVarValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code funcVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncVarValue(AngParser.FuncVarValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code funcVarValue}
+	 * labeled alternative in {@link AngParser#variableValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncVarValue(AngParser.FuncVarValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#constructor}.
 	 * @param ctx the parse tree
@@ -424,15 +586,29 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitAttributeValue(AngParser.AttributeValueContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#htmlBody}.
+	 * Enter a parse tree produced by the {@code mapHtmlBody}
+	 * labeled alternative in {@link AngParser#htmlBody}.
 	 * @param ctx the parse tree
 	 */
-	void enterHtmlBody(AngParser.HtmlBodyContext ctx);
+	void enterMapHtmlBody(AngParser.MapHtmlBodyContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#htmlBody}.
+	 * Exit a parse tree produced by the {@code mapHtmlBody}
+	 * labeled alternative in {@link AngParser#htmlBody}.
 	 * @param ctx the parse tree
 	 */
-	void exitHtmlBody(AngParser.HtmlBodyContext ctx);
+	void exitMapHtmlBody(AngParser.MapHtmlBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ifHtmlBody}
+	 * labeled alternative in {@link AngParser#htmlBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfHtmlBody(AngParser.IfHtmlBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ifHtmlBody}
+	 * labeled alternative in {@link AngParser#htmlBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfHtmlBody(AngParser.IfHtmlBodyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#hh}.
 	 * @param ctx the parse tree

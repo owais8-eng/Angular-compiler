@@ -1,18 +1,18 @@
 package AST;
 
 public class Template extends  ASTNode {
-    private String value;
+    private html value;
 
     public Template() {
         super("Template");
 
     }
 
-    public String getValue() {
+    public html getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(html value) {
         this.value = value;
     }
 

@@ -19,21 +19,40 @@ directiveConfig: OPEN_BRACE selector CLOSE_BRACE ;
 injectableConfig: OPEN_BRACE PROVIDEDIN COLON (PROVIDED_IN_ROOT | PROVIDED_IN_PLATFORM | PROVIDED_IN_ANY | SingleLineString) CLOSE_BRACE ;
 
 selector: SELECTOR COLON SingleLineString ;
-templateUrl: TEMPLATEURL COLON (SingleLineString | html) ;
-template: TEMPLATE COLON (SingleLineString | html) ;
+templateUrl: TEMPLATEURL COLON SingleLineString ;
+template: TEMPLATE COLON  html ;
 styleUrls: STYLES COLON array ;
 
 map: OPEN_BRACE (((ID) COLON value) COMMA?)* CLOSE_BRACE ;
 
-value: subValue | array | B_C html B_C;
-array: OPEN_SQUARE (subValue COMMA?)* CLOSE_SQUARE ;
+value
+  : subValue                        #subValueValue
+  | array                           #arrayValue
+  | B_C html B_C                    #htmlValue
+  ;
+  array: OPEN_SQUARE (subValue COMMA?)* CLOSE_SQUARE ;
 
-subValue: SingleLineString | ID | DECIMEL | B_C cssCode+ B_C ;
+subValue
+  : SingleLineString             #stringSubValue
+  | ID                           #idSubValue
+  | DECIMEL                      #numberSubValue
+  | B_C cssCode+ B_C             #cssBlockSubValue
+  ;
 
 
 variable: (LET | VAR | CONST)? (PRIVATE | PUBLIC)? ID (COLON (DATATYPE_ | vv | OPEN_SQUARE (dd COMMA?)* CLOSE_SQUARE) (OPEN_SQUARE CLOSE_SQUARE)?)? EQUAL variableValue SIME;
 
-variableValue: NEW? (SingleLineString | DECIMEL | ID | array | map | thisCall | function2 | NEW? callFun | function) (OPEN_PAREN vv* CLOSE_PAREN)? ;
+variableValue
+  : NEW? SingleLineString (OPEN_PAREN vv* CLOSE_PAREN)?         #stringVarValue
+  | NEW? DECIMEL (OPEN_PAREN vv* CLOSE_PAREN)?                  #numberVarValue
+  | NEW? ID (OPEN_PAREN vv* CLOSE_PAREN)?                       #idVarValue
+  | NEW? array (OPEN_PAREN vv* CLOSE_PAREN)?                    #arrayVarValue
+  | NEW? map (OPEN_PAREN vv* CLOSE_PAREN)?                      #mapVarValue
+  | thisCall (OPEN_PAREN vv* CLOSE_PAREN)?                      #thisCallVarValue
+  | function2 (OPEN_PAREN vv* CLOSE_PAREN)?                     #func2VarValue
+  | NEW? callFun (OPEN_PAREN vv* CLOSE_PAREN)?                  #callFunVarValue
+  | function (OPEN_PAREN vv* CLOSE_PAREN)?                      #funcVarValue
+  ;
 
 constructor : CONSTRUCTOR OPEN_PAREN ((PRIVATE | PUBLIC)? vv (COLON (DATATYPE_ | ID))? COMMA?)* CLOSE_PAREN OPEN_BRACE functionBody CLOSE_BRACE;
 
@@ -75,8 +94,10 @@ attributeValue: SingleLineString
               | NUMBER
               | ID;
 
-htmlBody : OPEN_BRACE (mapMethod2 | hh) CLOSE_BRACE;
-
+htmlBody
+  : OPEN_BRACE mapMethod2 CLOSE_BRACE    #mapHtmlBody
+  | OPEN_BRACE hh CLOSE_BRACE            #ifHtmlBody
+  ;
 hh : ID AND OPEN_PAREN html CLOSE_PAREN;
 
 mapMethod2 : (ID DOT)* MAP_ OPEN_PAREN OPEN_PAREN mapParam?  CLOSE_PAREN ARROW  OPEN_PAREN html CLOSE_PAREN CLOSE_PAREN ;
