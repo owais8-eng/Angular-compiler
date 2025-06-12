@@ -446,6 +446,54 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitFunctionBody(AngParser.FunctionBodyContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code variableStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableStatement(AngParser.VariableStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code variableStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableStatement(AngParser.VariableStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code thisCallStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterThisCallStatement(AngParser.ThisCallStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code thisCallStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitThisCallStatement(AngParser.ThisCallStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code printStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintStatement(AngParser.PrintStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code printStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintStatement(AngParser.PrintStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code callFunStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallFunStatement(AngParser.CallFunStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code callFunStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallFunStatement(AngParser.CallFunStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngParser#thisCall}.
 	 * @param ctx the parse tree
 	 */
@@ -556,15 +604,41 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitSy(AngParser.SyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#value2}.
+	 * Enter a parse tree produced by the {@code onClickValue}
+	 * labeled alternative in {@link AngParser#value2}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue2(AngParser.Value2Context ctx);
+	void enterOnClickValue(AngParser.OnClickValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#value2}.
+	 * Exit a parse tree produced by the {@code onClickValue}
+	 * labeled alternative in {@link AngParser#value2}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue2(AngParser.Value2Context ctx);
+	void exitOnClickValue(AngParser.OnClickValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code attributedValue}
+	 * labeled alternative in {@link AngParser#value2}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttributedValue(AngParser.AttributedValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code attributedValue}
+	 * labeled alternative in {@link AngParser#value2}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttributedValue(AngParser.AttributedValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code propertyAccessValue}
+	 * labeled alternative in {@link AngParser#value2}.
+	 * @param ctx the parse tree
+	 */
+	void enterPropertyAccessValue(AngParser.PropertyAccessValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code propertyAccessValue}
+	 * labeled alternative in {@link AngParser#value2}.
+	 * @param ctx the parse tree
+	 */
+	void exitPropertyAccessValue(AngParser.PropertyAccessValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#onClick}.
 	 * @param ctx the parse tree
@@ -670,15 +744,53 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitCssKey(AngParser.CssKeyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#cssInner}.
+	 * Enter a parse tree produced by the {@code idCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
 	 * @param ctx the parse tree
 	 */
-	void enterCssInner(AngParser.CssInnerContext ctx);
+	void enterIdCssValue(AngParser.IdCssValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#cssInner}.
+	 * Exit a parse tree produced by the {@code idCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
 	 * @param ctx the parse tree
 	 */
-	void exitCssInner(AngParser.CssInnerContext ctx);
+	void exitIdCssValue(AngParser.IdCssValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code numberCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberCssValue(AngParser.NumberCssValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code numberCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberCssValue(AngParser.NumberCssValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code percentageCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 */
+	void enterPercentageCssValue(AngParser.PercentageCssValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code percentageCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 */
+	void exitPercentageCssValue(AngParser.PercentageCssValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code functionCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCssValue(AngParser.FunctionCssValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code functionCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCssValue(AngParser.FunctionCssValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#enum}.
 	 * @param ctx the parse tree

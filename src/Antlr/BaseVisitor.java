@@ -813,67 +813,44 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
     @Override
     public functionBody visitFunctionBody(AngParser.FunctionBodyContext ctx) {
-        functionBody body = new functionBody();
-
-        String functionBodyScopeName = "functionBody:" + ctx.getParent().getText(); // Use function context or a unique identifier
-        scopeStack.push(functionBodyScopeName);
-
-        // Handle variables in function body
-        List<Variable> variables = new ArrayList<>();
-        for (AngParser.VariableContext variableContext : ctx.variable()) {
-            if (variableContext != null) {
-                variables.add((Variable) visit(variableContext));
+       functionBody functionBody = new functionBody();
+        List<Statement> statements = new ArrayList<>();
+        for (AngParser.StatementContext statementContext : ctx.statement()) {
+            if (statementContext != null) {
+                statements.add((Statement) visit(statementContext));
             }
         }
-        body.setVariables(variables);
-
-        // Handle function calls
-        List<callFun> callFuns = new ArrayList<>();
-        for (AngParser.CallFunContext callFunContext : ctx.callFun()) {
-            if (callFunContext != null) {
-                callFuns.add((callFun) visit(callFunContext));
-            }
-        }
-        body.setCallFuns(callFuns);
-
-        List<Print> prints = new ArrayList<>();
-        for (AngParser.PrintContext printContext : ctx.print()) {
-            if (printContext != null) {
-                prints.add((Print) visit(printContext));
-            }
-        }
-        body.setPrints(prints);
-
-        List<thisCall> thisCalls = new ArrayList<>();
-        for (AngParser.ThisCallContext thisCallContext : ctx.thisCall()) {
-            if (thisCallContext != null) {
-                thisCalls.add((thisCall) visit(thisCallContext));
-            }
-        }
-        body.setThisCalls(thisCalls);
+        functionBody.setStatements(statements);
+        return  functionBody;
+    }
 
 
+    @Override
+    public Statement visitVariableStatement(AngParser.VariableStatementContext ctx) {
+         Statement statement = new Statement();
+         statement.setVariable((Variable) visit(ctx.variable()));
+         return statement;
+    }
 
+    @Override
+    public Statement visitThisCallStatement(AngParser.ThisCallStatementContext ctx) {
+        Statement statement = new Statement();
+        statement.setCall((thisCall) visit(ctx.thisCall()));
+        return statement;
+    }
 
-        StringBuilder valueStr = new StringBuilder();
-        if (!variables.isEmpty()) {
-            valueStr.append("variables: ").append(variables);
-        }
-        if (!callFuns.isEmpty()) {
-            if (valueStr.length() > 0) valueStr.append(", ");
-            valueStr.append("callFuns: ").append(callFuns);
-        }
-        if (!prints.isEmpty()) {
-            if (valueStr.length() > 0) valueStr.append(", ");
-            valueStr.append("prints: ").append(prints);
-        }
-        if (!thisCalls.isEmpty()) {
-            if (valueStr.length() > 0) valueStr.append(", ");
-            valueStr.append("thisCalls: ").append(thisCalls);
-        }
+    @Override
+    public Statement visitPrintStatement(AngParser.PrintStatementContext ctx) {
+         Statement statement = new Statement();
+         statement.setPrintt((Print) visit(ctx.print()));
+         return statement;
+    }
 
-        scopeStack.pop();
-        return body;
+    @Override
+    public Statement visitCallFunStatement(AngParser.CallFunStatementContext ctx) {
+        Statement statement = new Statement();
+        statement.setCallFun((callFun) visit(ctx.callFun()));
+        return statement;
     }
 
     @Override
@@ -1224,53 +1201,27 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public Value2 visitValue2(AngParser.Value2Context ctx) {
+    public Value2 visitOnClickValue(AngParser.OnClickValueContext ctx) {
         Value2 value2 = new Value2();
-        if (ctx.onClick() != null) {
-            value2.setOnClick((OnClick) visit(ctx.onClick()));
-
-        }
-        if (ctx.attributeValue() != null) {
-            value2.setAttributeValue((attributeValue) visit(ctx.attributeValue()));
-        }
-        List<TerminalNode> ids = ctx.ID();
-        if (ids.size() == 2) {
-
-            String idLeft = ids.get(0).getText();
-            String idRight = ids.get(1).getText();
-            value2.setIdLeft(idLeft);
-            value2.setIdRight(idRight);
-        } else if (ids.isEmpty()) {
-
-            value2.setIdLeft(null);
-            value2.setIdRight(null);
-        } else {
-
-            throw new IllegalStateException("call fun must have either two IDs (idLeft and idRight) or none.");
-        }
-
-
-
-        StringBuilder value = new StringBuilder();
-        if (value2.getIdLeft() != null) {
-            value.append("idLeft: ").append(value2.getIdLeft());
-        }
-        if (value2.getIdRight() != null) {
-            if (!value.isEmpty()) value.append(", ");
-            value.append("idRight: ").append(value2.getIdRight());
-        }
-        if (value2.getOnClick() != null) {
-            if (!value.isEmpty()) value.append(", ");
-            value.append("onClick: ").append(value2.getOnClick());
-        }
-        if (value2.getAttributeValue() != null) {
-            if (!value.isEmpty()) value.append(", ");
-            value.append("attributeValue: ").append(value2.getAttributeValue());
-        }
-
+        value2.setOnClick((OnClick) visit(ctx.onClick()));
         return value2;
-
     }
+
+    @Override
+    public Value2 visitAttributedValue(AngParser.AttributedValueContext ctx) {
+        Value2 value2 = new Value2();
+        value2.setAttributeValue((attributeValue) visit(ctx.attributeValue()));
+        return value2;
+    }
+
+    @Override
+    public Value2 visitPropertyAccessValue(AngParser.PropertyAccessValueContext ctx) {
+        Value2 value2 = new Value2();
+        value2.setIdLeft(ctx.ID(0).getText());
+        value2.setIdRight(ctx.ID(1).getText());
+        return value2;
+    }
+
 
     @Override
     public OnClick visitOnClick(AngParser.OnClickContext ctx) {
@@ -1496,27 +1447,44 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
         return code;
     }
-
     @Override
-    public cssInner visitCssInner(AngParser.CssInnerContext ctx) {
+    public cssInner visitIdCssValue(AngParser.IdCssValueContext ctx) {
         cssInner inner = new cssInner();
         inner.setCssKey((cssKey) visit(ctx.cssKey()));
-        if (ctx.ID() != null) {
-            inner.setId(ctx.ID().getText());
-        }
-        if (ctx.NUMBER() != null && !ctx.NUMBER().isEmpty()) {
-            List<String> strings = ctx.NUMBER().stream()
-                    .map(ParseTree::getText).map(String::valueOf).collect(Collectors.toList());
-            inner.setNumbers(strings);
-        }
-        inner.setNumber(ctx.NUMBER().toString());
-        if(ctx.callFun() != null && !ctx.callFun().isEmpty()) {
-            inner.setCallFun((callFun) visit(ctx.callFun()));
-        }
-
+        inner.setId(ctx.ID().getText());
         return inner;
-
     }
+
+    @Override
+    public cssInner visitNumberCssValue(AngParser.NumberCssValueContext ctx) {
+        cssInner inner = new cssInner();
+        inner.setCssKey((cssKey) visit(ctx.cssKey()));
+
+        List<String> numbers = ctx.NUMBER().stream()
+                .map(ParseTree::getText)
+                .collect(Collectors.toList());
+
+        inner.setNumbers(numbers);
+        return inner;
+    }
+
+    @Override
+    public cssInner visitPercentageCssValue(AngParser.PercentageCssValueContext ctx) {
+        cssInner inner = new cssInner();
+        inner.setCssKey((cssKey) visit(ctx.cssKey()));
+        String percentage = ctx.NUMBER().getText() + ctx.HUN().getText();
+        inner.setNumber(percentage);
+        return inner;
+    }
+
+    @Override
+    public cssInner visitFunctionCssValue(AngParser.FunctionCssValueContext ctx) {
+        cssInner inner = new cssInner();
+        inner.setCssKey((cssKey) visit(ctx.cssKey()));
+        inner.setCallFun((callFun) visit(ctx.callFun()));
+        return inner;
+    }
+
 
     @Override
     public cssKey visitCssKey(AngParser.CssKeyContext ctx) {
@@ -1585,7 +1553,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 //this for print AST
 
     private int level = 0;
-    /*
+
 
         @Override
         public ASTNode visit(ParseTree tree) {
@@ -1614,7 +1582,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
            }
             return null;
-        }*/
+        }
     private boolean isIdentifier(String text) {
         return text.matches("[a-zA-Z_][a-zA-Z0-9_]*");  // Example: check for valid variable names
     }

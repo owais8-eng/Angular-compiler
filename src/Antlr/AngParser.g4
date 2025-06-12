@@ -73,8 +73,15 @@ dd : DATATYPE_ ;
 
 functionParams: vv (COLON (DATATYPE_ | ID))? COMMA?;
 
-functionBody: (variable | thisCall | print | callFun)* ;
+functionBody :
+    (statement)* ;
 
+statement
+    : variable      #variableStatement
+    | thisCall      #thisCallStatement
+    | print         #printStatement
+    | callFun       #callFunStatement
+    ;
 thisCall: (THIS | ID) (DOT ID DOT?)* (variableValue | dotdot* | PLPL) SIME?;
 
 dotdot: ((DOT ID)? (OPEN_PAREN ((vv | SingleLineString | function2) COMMA?)* CLOSE_PAREN)) ;
@@ -103,8 +110,11 @@ htmlClass : ((CLASS) EQUAL OPEN_BRACE? value2 CLOSE_BRACE?) ;
 
 sy : ID ;
 
-value2 : (onClick | attributeValue | ID DOT ID ) ;
-
+value2 :
+    onClick #onClickValue
+    | attributeValue #attributedValue
+    | ID DOT ID #propertyAccessValue
+    ;
 onClick: OPEN_BRACE (function2) CLOSE_BRACE | OPEN_BRACE (ID) CLOSE_BRACE ;
 
 attributeValue: SingleLineString
@@ -130,7 +140,12 @@ cssCode : ((DOT | SQ)? cssKey)* OPEN_BRACE cssInner* CLOSE_BRACE ;
 
 cssKey :  (sy (MINUS sy)+) | ID | WIDTH | SYNTAX;
 
-cssInner: cssKey COLON (ID | (NUMBER PX?)+ | (NUMBER HUN) | callFun) SIME? ;
+cssInner :
+    cssKey COLON ID SIME? #idCssValue
+    | cssKey COLON (NUMBER PX?)+ SIME? #numberCssValue
+    | cssKey COLON (NUMBER HUN) SIME? #percentageCssValue
+    | cssKey COLON callFun SIME? #functionCssValue
+    ;
 
 //---------------------------------------------------------------------------------------------------
 enum: ENUM sy OPEN_BRACE (ID COMMA?)* CLOSE_BRACE ;

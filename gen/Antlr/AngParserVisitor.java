@@ -270,6 +270,34 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionBody(AngParser.FunctionBodyContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code variableStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableStatement(AngParser.VariableStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code thisCallStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThisCallStatement(AngParser.ThisCallStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code printStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintStatement(AngParser.PrintStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code callFunStatement}
+	 * labeled alternative in {@link AngParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallFunStatement(AngParser.CallFunStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngParser#thisCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -336,11 +364,26 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSy(AngParser.SyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#value2}.
+	 * Visit a parse tree produced by the {@code onClickValue}
+	 * labeled alternative in {@link AngParser#value2}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue2(AngParser.Value2Context ctx);
+	T visitOnClickValue(AngParser.OnClickValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code attributedValue}
+	 * labeled alternative in {@link AngParser#value2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAttributedValue(AngParser.AttributedValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code propertyAccessValue}
+	 * labeled alternative in {@link AngParser#value2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPropertyAccessValue(AngParser.PropertyAccessValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#onClick}.
 	 * @param ctx the parse tree
@@ -404,11 +447,33 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCssKey(AngParser.CssKeyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#cssInner}.
+	 * Visit a parse tree produced by the {@code idCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCssInner(AngParser.CssInnerContext ctx);
+	T visitIdCssValue(AngParser.IdCssValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numberCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumberCssValue(AngParser.NumberCssValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code percentageCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPercentageCssValue(AngParser.PercentageCssValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code functionCssValue}
+	 * labeled alternative in {@link AngParser#cssInner}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCssValue(AngParser.FunctionCssValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#enum}.
 	 * @param ctx the parse tree
