@@ -31,11 +31,12 @@ template: TEMPLATE COLON  html ;
 styleUrls: STYLES COLON array ;
 
 map: OPEN_BRACE (((ID) COLON value) COMMA?)* CLOSE_BRACE ;
-
+//edited
 value
   : subValue                        #subValueValue
   | array                           #arrayValue
   | B_C html B_C                    #htmlValue
+  | ID (DOT ID)*                    #stateValue
   ;
 
 array: OPEN_SQUARE (subValue COMMA?)* CLOSE_SQUARE ;
@@ -47,7 +48,13 @@ subValue
   | B_C cssCode+ B_C             #cssBlockSubValue
   ;
 
-variable: (LET | VAR | CONST)? (PRIVATE | PUBLIC)? ID (COLON (DATATYPE_ | vv | OPEN_SQUARE (dd COMMA?)* CLOSE_SQUARE) (OPEN_SQUARE CLOSE_SQUARE)?)? EQUAL variableValue SIME;
+//edited
+variable: (LET | VAR | CONST | STATE)? (PRIVATE | PUBLIC)? ID (COLON (DATATYPE_ | vv | OPEN_SQUARE (dd COMMA?)* CLOSE_SQUARE) (OPEN_SQUARE CLOSE_SQUARE)?)? EQUAL variableValue SIME;
+
+//added
+updateState
+ : ID (DOT ID)* EQUAL (subValue | array | map) SIME
+ ;
 
 variableValue
   : NEW? SingleLineString (OPEN_PAREN vv* CLOSE_PAREN)?         #stringVarValue
@@ -73,8 +80,9 @@ dd : DATATYPE_ ;
 
 functionParams: vv (COLON (DATATYPE_ | ID))? COMMA?;
 
+//edited
 functionBody :
-    (statement)* ;
+    (statement | updateState)* ;
 
 statement
     : variable      #variableStatement
@@ -82,6 +90,7 @@ statement
     | print         #printStatement
     | callFun       #callFunStatement
     ;
+
 thisCall: (THIS | ID) (DOT ID DOT?)* (variableValue | dotdot* | PLPL) SIME?;
 
 dotdot: ((DOT ID)? (OPEN_PAREN ((vv | SingleLineString | function2) COMMA?)* CLOSE_PAREN)) ;
@@ -90,7 +99,7 @@ print: CONSOLE_ DOT LOG_ OPEN_PAREN (SingleLineString | thisCall) CLOSE_PAREN SI
 
 returnStatement: RETURN? (thisCall | SingleLineString | DECIMEL | ID | array) SIME?;
 
-// -------------------------------------html---------------------------------------------
+// ------------------------------------- Html Rules ---------------------------------------------
 
 html:
       JSX_OPEN (SYNTAX) htmlinside? JSX_SLASH? JSX_CLOSE
@@ -100,7 +109,8 @@ html:
 
 htmlDot :OPEN_BRACE? ID DOT ID CLOSE_BRACE?;
 
-htmlVar :OPEN_BRACE? ID CLOSE_BRACE?;
+//edited
+htmlVar :OPEN_BRACE? ID (DOT ID)* CLOSE_BRACE?;
 
 htmlinside : sy? (htmlID | htmlClass)* ;
 
@@ -115,6 +125,7 @@ value2 :
     | attributeValue #attributedValue
     | ID DOT ID #propertyAccessValue
     ;
+
 onClick: OPEN_BRACE (function2) CLOSE_BRACE | OPEN_BRACE (ID) CLOSE_BRACE ;
 
 attributeValue: SingleLineString
@@ -132,9 +143,34 @@ mapMethod2 : (ID DOT)* MAP_ OPEN_PAREN OPEN_PAREN mapParam?  CLOSE_PAREN ARROW  
 
 mapParam : (ID COMMA?)* ;
 
-callFun: AWAIT? (ID | ID DOT ID) OPEN_PAREN ((ID | SingleLineString | map | callFun) COMMA?)* CLOSE_PAREN SIME ;
+//edited
+callFun
+ : AWAIT? navigateCall    SIME?    #navigateStatement
+ | AWAIT? routerCall      SIME?    #routerStatement
+ ;
 
-// --------------------------------------css------------------------------------------------------
+//added
+navigateCall
+  : NAVIGATE OPEN_PAREN SingleLineString (COMMA stateParam)? CLOSE_PAREN
+  ;
+
+//added
+routerCall
+ : (THIS DOT)? routerName DOT NAVIGATE OPEN_PAREN SingleLineString (COMMA stateParam)? CLOSE_PAREN
+ ;
+
+ //added
+routerName
+ : ID
+ | ROUTER
+ ;
+
+ //added
+stateParam
+ : OPEN_BRACE (ID COLON (SingleLineString | DECIMEL | ID | map | array)) (COMMA (ID COLON (SingleLineString | DECIMEL | ID | map | array)))* CLOSE_BRACE
+ ;
+
+// --------------------------------------CSS Rules ------------------------------------------------------
 
 cssCode : ((DOT | SQ)? cssKey)* OPEN_BRACE cssInner* CLOSE_BRACE ;
 

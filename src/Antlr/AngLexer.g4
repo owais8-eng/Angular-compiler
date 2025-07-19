@@ -106,12 +106,16 @@ PLACEHOLDER_:'placeholder';
 DISABLED_:'disabled ';
 ONFOCUS_:'onFocus';
 ONCLICK_:'onclick';
+NAVIGATE: 'navigate';
+ROUTER : 'router';
+STATE: 'state';
+
 
 HEIGHT: 'height';
 WIDTH: 'width';
 BUTTON_:'button';
 MAP_:'map';
-//CLASS_NAME:'className';
+
 
 OPERATION:PLUS|MINUS|PLPL|'--'|PLE|'-='|MULTI|'==';
 SYNTAX : 'div' |'li' |'p' |'ul' |SIZE_FONT | 'main' | 'BrowserRouter' | 'Switch' | 'Route' | 'img';
