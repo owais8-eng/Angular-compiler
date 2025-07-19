@@ -1,4 +1,4 @@
-// Generated from C:/Users/owais/Desktop/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/owais/Desktop/Compiler Project/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
 package Antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -200,6 +200,18 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitHtmlValue(AngParser.HtmlValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code stateValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterStateValue(AngParser.StateValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stateValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitStateValue(AngParser.StateValueContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngParser#array}.
 	 * @param ctx the parse tree
 	 */
@@ -258,6 +270,18 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitCssBlockSubValue(AngParser.CssBlockSubValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code dotAccessSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterDotAccessSubValue(AngParser.DotAccessSubValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code dotAccessSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitDotAccessSubValue(AngParser.DotAccessSubValueContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngParser#variable}.
 	 * @param ctx the parse tree
 	 */
@@ -267,6 +291,26 @@ public interface AngParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariable(AngParser.VariableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngParser#variableName}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableName(AngParser.VariableNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#variableName}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableName(AngParser.VariableNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngParser#updateState}.
+	 * @param ctx the parse tree
+	 */
+	void enterUpdateState(AngParser.UpdateStateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#updateState}.
+	 * @param ctx the parse tree
+	 */
+	void exitUpdateState(AngParser.UpdateStateContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code stringVarValue}
 	 * labeled alternative in {@link AngParser#variableValue}.
@@ -714,15 +758,69 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitMapParam(AngParser.MapParamContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#callFun}.
+	 * Enter a parse tree produced by the {@code navigateStatement}
+	 * labeled alternative in {@link AngParser#callFun}.
 	 * @param ctx the parse tree
 	 */
-	void enterCallFun(AngParser.CallFunContext ctx);
+	void enterNavigateStatement(AngParser.NavigateStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#callFun}.
+	 * Exit a parse tree produced by the {@code navigateStatement}
+	 * labeled alternative in {@link AngParser#callFun}.
 	 * @param ctx the parse tree
 	 */
-	void exitCallFun(AngParser.CallFunContext ctx);
+	void exitNavigateStatement(AngParser.NavigateStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code routerStatement}
+	 * labeled alternative in {@link AngParser#callFun}.
+	 * @param ctx the parse tree
+	 */
+	void enterRouterStatement(AngParser.RouterStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code routerStatement}
+	 * labeled alternative in {@link AngParser#callFun}.
+	 * @param ctx the parse tree
+	 */
+	void exitRouterStatement(AngParser.RouterStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngParser#navigateCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterNavigateCall(AngParser.NavigateCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#navigateCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitNavigateCall(AngParser.NavigateCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngParser#routerCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterRouterCall(AngParser.RouterCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#routerCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitRouterCall(AngParser.RouterCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngParser#routerName}.
+	 * @param ctx the parse tree
+	 */
+	void enterRouterName(AngParser.RouterNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#routerName}.
+	 * @param ctx the parse tree
+	 */
+	void exitRouterName(AngParser.RouterNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngParser#stateParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterStateParam(AngParser.StateParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#stateParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitStateParam(AngParser.StateParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#cssCode}.
 	 * @param ctx the parse tree

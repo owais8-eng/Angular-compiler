@@ -40,17 +40,21 @@ value
   ;
 
 array: OPEN_SQUARE (subValue COMMA?)* CLOSE_SQUARE ;
-
+//EDIED
 subValue
   : SingleLineString             #stringSubValue
   | ID                           #idSubValue
-  | DECIMEL                      #numberSubValue
+  | NUMBER                      #numberSubValue
   | B_C cssCode+ B_C             #cssBlockSubValue
+  | (ID | STATE) (DOT ID)+                 #dotAccessSubValue
   ;
 
 //edited
-variable: (LET | VAR | CONST | STATE)? (PRIVATE | PUBLIC)? ID (COLON (DATATYPE_ | vv | OPEN_SQUARE (dd COMMA?)* CLOSE_SQUARE) (OPEN_SQUARE CLOSE_SQUARE)?)? EQUAL variableValue SIME;
+variable: (LET | VAR | CONST | STATE)? (PRIVATE | PUBLIC)? (ID | variableName ) (COLON (DATATYPE_ | vv | OPEN_SQUARE (dd COMMA?)* CLOSE_SQUARE) (OPEN_SQUARE CLOSE_SQUARE)?)? EQUAL variableValue SIME;
 
+variableName
+ :   (DOT ID)*
+ ;
 //added
 updateState
  : ID (DOT ID)* EQUAL (subValue | array | map) SIME

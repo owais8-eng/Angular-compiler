@@ -1,4 +1,4 @@
-// Generated from C:/Users/owais/Desktop/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/owais/Desktop/Compiler Project/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
 package Antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -233,6 +233,18 @@ public class AngParserBaseListener implements AngParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStateValue(AngParser.StateValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStateValue(AngParser.StateValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArray(AngParser.ArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -293,6 +305,18 @@ public class AngParserBaseListener implements AngParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDotAccessSubValue(AngParser.DotAccessSubValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDotAccessSubValue(AngParser.DotAccessSubValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariable(AngParser.VariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -300,6 +324,30 @@ public class AngParserBaseListener implements AngParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariable(AngParser.VariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVariableName(AngParser.VariableNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariableName(AngParser.VariableNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUpdateState(AngParser.UpdateStateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUpdateState(AngParser.UpdateStateContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -797,13 +845,73 @@ public class AngParserBaseListener implements AngParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCallFun(AngParser.CallFunContext ctx) { }
+	@Override public void enterNavigateStatement(AngParser.NavigateStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCallFun(AngParser.CallFunContext ctx) { }
+	@Override public void exitNavigateStatement(AngParser.NavigateStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRouterStatement(AngParser.RouterStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRouterStatement(AngParser.RouterStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNavigateCall(AngParser.NavigateCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNavigateCall(AngParser.NavigateCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRouterCall(AngParser.RouterCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRouterCall(AngParser.RouterCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRouterName(AngParser.RouterNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRouterName(AngParser.RouterNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStateParam(AngParser.StateParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStateParam(AngParser.StateParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

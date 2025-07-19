@@ -1,4 +1,4 @@
-// Generated from C:/Users/owais/Desktop/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/owais/Desktop/Compiler Project/Angular-compiler/src/Antlr/AngParser.g4 by ANTLR 4.13.2
 package Antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -125,6 +125,13 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHtmlValue(AngParser.HtmlValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code stateValue}
+	 * labeled alternative in {@link AngParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStateValue(AngParser.StateValueContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngParser#array}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -159,11 +166,30 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCssBlockSubValue(AngParser.CssBlockSubValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code dotAccessSubValue}
+	 * labeled alternative in {@link AngParser#subValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDotAccessSubValue(AngParser.DotAccessSubValueContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVariable(AngParser.VariableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngParser#variableName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableName(AngParser.VariableNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngParser#updateState}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUpdateState(AngParser.UpdateStateContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code stringVarValue}
 	 * labeled alternative in {@link AngParser#variableValue}.
@@ -429,11 +455,43 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMapParam(AngParser.MapParamContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#callFun}.
+	 * Visit a parse tree produced by the {@code navigateStatement}
+	 * labeled alternative in {@link AngParser#callFun}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCallFun(AngParser.CallFunContext ctx);
+	T visitNavigateStatement(AngParser.NavigateStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code routerStatement}
+	 * labeled alternative in {@link AngParser#callFun}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRouterStatement(AngParser.RouterStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngParser#navigateCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNavigateCall(AngParser.NavigateCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngParser#routerCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRouterCall(AngParser.RouterCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngParser#routerName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRouterName(AngParser.RouterNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngParser#stateParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStateParam(AngParser.StateParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#cssCode}.
 	 * @param ctx the parse tree
