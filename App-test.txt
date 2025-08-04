@@ -1,24 +1,31 @@
-
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule } from "@angular/forms";
-import { AppComponent } from "./app.component";
-import { ExampleComponent } from "./example/example.component";
+import { component } from '@angular/core';
 
 @Component({
-    selector: "app-root",
-    templateUrl: "app-root.html",
-    styles: ["app-root.css"]
-
+  selector: 'app-product',
+  template:
+    <div style="width: 300px; padding: 20px; border: 1px solid gray;">
+      <h1>{ product.title }</h1>
+      <img src="product.imageUrl" alt="Product Image"
+           style="width: 100%; height: 200px; object-fit: cover;" />
+      <p>{ product.description }</p>
+      <h3>Price: { formatPrice(product.price) } </h3>
+      <button click="addToCart()">Add to Cart</button>
+    </div>
 
 })
-export class ProfilePhoto
-{
-let name = "ows";
+export class ProductComponent {
+  product = {
+    title: "Smartphone",
+    description: "Top-tier smartphone with amazing features",
+    price: 999,
+    imageUrl: "https://example.com/phone.jpg"
+  };
 
- add():String {
-    console.log("aa");
+  formatPrice(P: number): string {
+     return P;
+  }
+
+  addToCart(): void {
+    console.log("Product added to cart");
+  }
 }
-
-}
-

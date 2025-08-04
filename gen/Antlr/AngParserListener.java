@@ -200,17 +200,17 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitHtmlValue(AngParser.HtmlValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code stateValue}
+	 * Enter a parse tree produced by the {@code mapValue}
 	 * labeled alternative in {@link AngParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterStateValue(AngParser.StateValueContext ctx);
+	void enterMapValue(AngParser.MapValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code stateValue}
+	 * Exit a parse tree produced by the {@code mapValue}
 	 * labeled alternative in {@link AngParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitStateValue(AngParser.StateValueContext ctx);
+	void exitMapValue(AngParser.MapValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#array}.
 	 * @param ctx the parse tree
@@ -291,6 +291,16 @@ public interface AngParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariable(AngParser.VariableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngParser#arrayType}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayType(AngParser.ArrayTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#arrayType}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayType(AngParser.ArrayTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#variableName}.
 	 * @param ctx the parse tree
@@ -588,6 +598,52 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitHtml(AngParser.HtmlContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 */
+	void enterHtmlContent(AngParser.HtmlContentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 */
+	void exitHtmlContent(AngParser.HtmlContentContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code callExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallExpression(AngParser.CallExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code callExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallExpression(AngParser.CallExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code dotExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterDotExpression(AngParser.DotExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code dotExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitDotExpression(AngParser.DotExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code varExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarExpression(AngParser.VarExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code varExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarExpression(AngParser.VarExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngParser#htmlDot}.
 	 * @param ctx the parse tree
 	 */
@@ -781,6 +837,18 @@ public interface AngParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRouterStatement(AngParser.RouterStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code generalCall}
+	 * labeled alternative in {@link AngParser#callFun}.
+	 * @param ctx the parse tree
+	 */
+	void enterGeneralCall(AngParser.GeneralCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code generalCall}
+	 * labeled alternative in {@link AngParser#callFun}.
+	 * @param ctx the parse tree
+	 */
+	void exitGeneralCall(AngParser.GeneralCallContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngParser#navigateCall}.
 	 * @param ctx the parse tree

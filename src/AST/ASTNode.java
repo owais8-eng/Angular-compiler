@@ -32,6 +32,7 @@ public abstract class ASTNode {
                 "\n, children=" + children +
                 '}';
     }
+    public abstract String generateCode();
 
 
 }

@@ -3,15 +3,17 @@ package AST;
 import Antlr.BaseVisitor;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Variable extends ASTNode {
 
-    public String name;
+    private List<String> nameParts;
     public String modifier;
     public String visibility;
+    public String datatype;
     public vv vvs;
-    public List<dd> dds;
+    public arrayType arrayType;
     public VariableValue value;
 
     public Variable() {
@@ -19,12 +21,12 @@ public class Variable extends ASTNode {
     }
 
 
-    public String getName() {
-        return name;
+    public List<String> getNameParts() {
+        return nameParts;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameParts(List<String> nameParts) {
+        this.nameParts = nameParts;
     }
 
     public String getModifier() {
@@ -43,20 +45,28 @@ public class Variable extends ASTNode {
         this.visibility = visibility;
     }
 
-    public vv getVvs() {
+    public String getDatatype() {
+        return datatype;
+    }
+
+    public void setDatatype(String datatype) {
+        this.datatype = datatype;
+    }
+
+    public vv getVvNode() {
         return vvs;
     }
 
-    public void setVvs(vv vvs) {
-        this.vvs = vvs;
+    public void setVvNode(vv vvNode) {
+        this.vvs = vvNode;
     }
 
-    public List<dd> getDds() {
-        return dds;
+    public arrayType getArrayType() {
+        return arrayType;
     }
 
-    public void setDds(List<dd> dds) {
-        this.dds = dds;
+    public void setArrayTypeNode(arrayType arrayTypeNode) {
+        this.arrayType = arrayTypeNode;
     }
 
     public VariableValue getValue() {
@@ -69,28 +79,45 @@ public class Variable extends ASTNode {
 
     @Override
     public String toString() {
-       StringBuilder stringBuilder = new StringBuilder("Variable :{");
+        StringBuilder sb = new StringBuilder("Variable{");
+        sb.append("modifier=").append(modifier).append(", ");
+        sb.append("visibility=").append(visibility).append(", ");
+        sb.append("nameParts=").append(nameParts).append(", ");
+        sb.append("datatype=").append(datatype).append(", ");
+        sb.append("vvNode=").append(vvs).append(", ");
+        sb.append("arrayTypeNode=").append(arrayType).append(", ");
+        sb.append("value=").append(value);
+        sb.append("}");
+        return sb.toString();
+    }
 
-       stringBuilder.append("visibility").append(visibility);
-       stringBuilder.append("modifier" + modifier);
-       stringBuilder.append("name" + name);
+    @Override
+    public String generateCode() {
+        StringBuilder sb = new StringBuilder();
 
-     stringBuilder.append("vv" + vvs);
-        if (dds != null && !dds.isEmpty()) {
-            stringBuilder.append(" dds [");
-            for (int i = 0; i < dds.size(); i++) {
-                stringBuilder.append(dds.get(i));
-                if (i < dds.size() - 1) {
-                    stringBuilder.append(",");
-                }
-            }
-            stringBuilder.append("]");
-
+        if (visibility != null && !visibility.isEmpty()) {
+            sb.append(visibility).append(" ");
         }
-        stringBuilder.append("value").append(value);
-        stringBuilder.append("}");
+        if (modifier != null && !modifier.isEmpty()) {
+            sb.append(modifier).append(" ");
+        }
+        if (nameParts != null && !nameParts.isEmpty()) {
+            sb.append(String.join(".",nameParts));
+        }
+        if (datatype != null && !datatype.isEmpty()) {
+            sb.append(": ").append(datatype);
+            if (arrayType != null) {
+                sb.append("[]");
+            }
+        }
+        if (value != null) {
 
-        return stringBuilder.toString();
+            sb.append(" = ").append(value.generateCode());
+        }
+        sb.append(";");
+
+        return  sb.toString();
+
     }
 
 

@@ -125,12 +125,12 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHtmlValue(AngParser.HtmlValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code stateValue}
+	 * Visit a parse tree produced by the {@code mapValue}
 	 * labeled alternative in {@link AngParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStateValue(AngParser.StateValueContext ctx);
+	T visitMapValue(AngParser.MapValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#array}.
 	 * @param ctx the parse tree
@@ -178,6 +178,12 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVariable(AngParser.VariableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngParser#arrayType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayType(AngParser.ArrayTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#variableName}.
 	 * @param ctx the parse tree
@@ -354,6 +360,33 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHtml(AngParser.HtmlContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHtmlContent(AngParser.HtmlContentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code callExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallExpression(AngParser.CallExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code dotExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDotExpression(AngParser.DotExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code varExpression}
+	 * labeled alternative in {@link AngParser#htmlExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarExpression(AngParser.VarExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngParser#htmlDot}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -468,6 +501,13 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRouterStatement(AngParser.RouterStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code generalCall}
+	 * labeled alternative in {@link AngParser#callFun}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGeneralCall(AngParser.GeneralCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngParser#navigateCall}.
 	 * @param ctx the parse tree

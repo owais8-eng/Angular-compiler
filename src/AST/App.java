@@ -142,5 +142,47 @@ public class App extends ASTNode{
      return stringBuilder.toString();
     }
 
+    @Override
+    public String generateCode() {
+          StringBuilder sb = new StringBuilder();
+          if (importRS != null) {
+              for (ImportR imp : importRS) {
+                  sb.append(imp.generateCode()).append("\n");
+              }
+          }
+          if (exports != null) {
+              for (Exports exports : exports) {
+                  sb.append(exports.generateCode()).append("\n");
+              }
+          }
+        if (variables != null) {
+            for (Variable var : variables) {
+                sb.append(var.generateCode()).append("\n");
+            }
+        }
+
+        if (functions != null) {
+            for (function fn : functions) {
+                sb.append(fn.generateCode()).append("\n");
+            }
+        }
+
+        if (enumS != null) {
+            for (enum_ en : enumS) {
+                sb.append(en.generateCode()).append("\n");
+            }
+        }
+
+        if (interfaceCodes != null) {
+            for (interfaceCode iface : interfaceCodes) {
+                sb.append(iface.generateCode()).append("\n");
+            }
+        }
+
+        return sb.toString();
+
+
+    }
+
 
 }

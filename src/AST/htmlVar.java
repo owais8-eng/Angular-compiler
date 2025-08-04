@@ -2,27 +2,30 @@ package AST;
 
 import Antlr.BaseVisitor;
 
+import java.util.List;
+
 public class htmlVar extends ASTNode {
-    public String Id;
+    public List<String> nameParts;
 
     public htmlVar() {
         super("html var");
     }
 
-    public String getId() {
-        return Id;
+    public List<String> getNameParts() {
+        return nameParts;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setNameParts(List<String> nameParts) {
+        this.nameParts = nameParts;
     }
 
     @Override
     public String toString() {
-        return "\nhtmlVar{" +
-                "\nId='" + Id + '\'' +
-                '}';
+        return "\nHtmlVar{" +
+                "\nnameParts=" + nameParts +
+                "\n}";
     }
+
 
 
 }

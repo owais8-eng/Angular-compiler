@@ -233,13 +233,13 @@ public class AngParserBaseListener implements AngParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStateValue(AngParser.StateValueContext ctx) { }
+	@Override public void enterMapValue(AngParser.MapValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStateValue(AngParser.StateValueContext ctx) { }
+	@Override public void exitMapValue(AngParser.MapValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -324,6 +324,18 @@ public class AngParserBaseListener implements AngParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariable(AngParser.VariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayType(AngParser.ArrayTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayType(AngParser.ArrayTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -653,6 +665,54 @@ public class AngParserBaseListener implements AngParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterHtmlContent(AngParser.HtmlContentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHtmlContent(AngParser.HtmlContentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCallExpression(AngParser.CallExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCallExpression(AngParser.CallExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDotExpression(AngParser.DotExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDotExpression(AngParser.DotExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVarExpression(AngParser.VarExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarExpression(AngParser.VarExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterHtmlDot(AngParser.HtmlDotContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -864,6 +924,18 @@ public class AngParserBaseListener implements AngParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRouterStatement(AngParser.RouterStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGeneralCall(AngParser.GeneralCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGeneralCall(AngParser.GeneralCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

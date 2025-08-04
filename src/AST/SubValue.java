@@ -9,6 +9,7 @@ public class SubValue extends ASTNode {
     public String id;
     public Integer decimal;
     public List<cssCode> cssCode;
+    public String dotAccessValue;
 
     public SubValue() {
         super("subValue");
@@ -45,6 +46,11 @@ public class SubValue extends ASTNode {
     public void setCssCode(List<AST.cssCode> cssCode) {
         this.cssCode = cssCode;
     }
+
+    public String getDotAccessValue(){
+        return dotAccessValue;
+    }
+    public void setDotAccess(String value) { this.dotAccessValue = value; }
 
     @Override
     public String toString() {

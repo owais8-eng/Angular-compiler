@@ -4,7 +4,7 @@ options { tokenVocab=AngLexer; }
 
 app : (importR | variable | function | exports | enum | interfaceCode)*  ;
 
-importR: IMPORT OPEN_BRACE (((ID) COMMA?)* SIGNAL? COMMA? ((ID) COMMA?)*) CLOSE_BRACE FROM SingleLineString SIME;
+importR: IMPORT OPEN_BRACE (((ID) COMMA?)* SIGNAL? COMMA? ((ID) COMMA?)*) CLOSE_BRACE FROM SINGLE_QUOTED_STRING SIME;
 
 exports : decorater* EXPORT CLASS ID ((IMPLEMENT | EXTEND) ID)?  classBody ;
 
@@ -22,42 +22,48 @@ directiveConfig: OPEN_BRACE selector CLOSE_BRACE ;
 
 injectableConfig: OPEN_BRACE PROVIDEDIN COLON (PROVIDED_IN_ROOT | PROVIDED_IN_PLATFORM | PROVIDED_IN_ANY | SingleLineString) CLOSE_BRACE ;
 
-selector: SELECTOR COLON SingleLineString ;
+selector: SELECTOR COLON SINGLE_QUOTED_STRING ;
 
 templateUrl: TEMPLATEURL COLON SingleLineString ;
 
-template: TEMPLATE COLON  html ;
+template: TEMPLATE COLON   html ;
 
 styleUrls: STYLES COLON array ;
 
 map: OPEN_BRACE (((ID) COLON value) COMMA?)* CLOSE_BRACE ;
-//edited
+
 value
   : subValue                        #subValueValue
   | array                           #arrayValue
   | B_C html B_C                    #htmlValue
-  | ID (DOT ID)*                    #stateValue
+  | map                             #mapValue
   ;
 
 array: OPEN_SQUARE (subValue COMMA?)* CLOSE_SQUARE ;
-//EDIED
+
 subValue
   : SingleLineString             #stringSubValue
   | ID                           #idSubValue
   | NUMBER                      #numberSubValue
   | B_C cssCode+ B_C             #cssBlockSubValue
-  | (ID | STATE) (DOT ID)+                 #dotAccessSubValue
+  | (ID | STATE) (DOT ID)+        #dotAccessSubValue
   ;
 
-//edited
-variable: (LET | VAR | CONST | STATE)? (PRIVATE | PUBLIC)? (ID | variableName ) (COLON (DATATYPE_ | vv | OPEN_SQUARE (dd COMMA?)* CLOSE_SQUARE) (OPEN_SQUARE CLOSE_SQUARE)?)? EQUAL variableValue SIME;
 
-variableName
- :   (DOT ID)*
+variable: (LET | VAR | CONST)? (PRIVATE | PUBLIC)?  variableName  (COLON (DATATYPE_ | vv | arrayType)?)? EQUAL variableValue SIME;
+
+arrayType
+ : OPEN_SQUARE CLOSE_SQUARE
+ | OPEN_SQUARE DATATYPE_ CLOSE_SQUARE
  ;
-//added
+variableName
+ : ID (DOT ID)*
+ | STATE (DOT ID)+
+
+ ;
+
 updateState
- : ID (DOT ID)* EQUAL (subValue | array | map) SIME
+ : variableName EQUAL (subValue | array | map) SIME
  ;
 
 variableValue
@@ -82,9 +88,9 @@ function2: OPEN_PAREN functionParams* CLOSE_PAREN (COLON (DATATYPE_ | vv | OPEN_
 
 dd : DATATYPE_ ;
 
-functionParams: vv (COLON (DATATYPE_ | ID))? COMMA?;
+functionParams: ID (COLON (DATATYPE_ | ID))? COMMA?;
 
-//edited
+
 functionBody :
     (statement | updateState)* ;
 
@@ -107,13 +113,27 @@ returnStatement: RETURN? (thisCall | SingleLineString | DECIMEL | ID | array) SI
 
 html:
       JSX_OPEN (SYNTAX) htmlinside? JSX_SLASH? JSX_CLOSE
-      ((htmlBody |html* |  (ID* | htmlDot | htmlVar) )
-      (JSX_OPEN JSX_SLASH SYNTAX JSX_CLOSE ))?
+
+      (htmlContent*
+      JSX_OPEN JSX_SLASH SYNTAX JSX_CLOSE
+      )?
       ;
+htmlContent :
+             htmlBody
+            |html
+            |htmlExpression
+            ;
+htmlExpression :
+               ID COLON OPEN_BRACE callFun CLOSE_BRACE    #callExpression
+               | htmlDot                                   #dotExpression
+               | htmlVar                                   #varExpression
+                ;
+
+
 
 htmlDot :OPEN_BRACE? ID DOT ID CLOSE_BRACE?;
 
-//edited
+
 htmlVar :OPEN_BRACE? ID (DOT ID)* CLOSE_BRACE?;
 
 htmlinside : sy? (htmlID | htmlClass)* ;
@@ -125,9 +145,9 @@ htmlClass : ((CLASS) EQUAL OPEN_BRACE? value2 CLOSE_BRACE?) ;
 sy : ID ;
 
 value2 :
-    onClick #onClickValue
-    | attributeValue #attributedValue
-    | ID DOT ID #propertyAccessValue
+      onClick         #onClickValue
+    | attributeValue  #attributedValue
+    | ID DOT ID       #propertyAccessValue
     ;
 
 onClick: OPEN_BRACE (function2) CLOSE_BRACE | OPEN_BRACE (ID) CLOSE_BRACE ;
@@ -147,10 +167,12 @@ mapMethod2 : (ID DOT)* MAP_ OPEN_PAREN OPEN_PAREN mapParam?  CLOSE_PAREN ARROW  
 
 mapParam : (ID COMMA?)* ;
 
-//edited
+
 callFun
  : AWAIT? navigateCall    SIME?    #navigateStatement
  | AWAIT? routerCall      SIME?    #routerStatement
+ | ID OPEN_PAREN (subValue (COMMA subValue)*)? CLOSE_PAREN SIME?   #generalCall
+
  ;
 
 //added
@@ -181,10 +203,10 @@ cssCode : ((DOT | SQ)? cssKey)* OPEN_BRACE cssInner* CLOSE_BRACE ;
 cssKey :  (sy (MINUS sy)+) | ID | WIDTH | SYNTAX;
 
 cssInner :
-    cssKey COLON ID SIME? #idCssValue
-    | cssKey COLON (NUMBER PX?)+ SIME? #numberCssValue
-    | cssKey COLON (NUMBER HUN) SIME? #percentageCssValue
-    | cssKey COLON callFun SIME? #functionCssValue
+      cssKey COLON ID SIME?                 #idCssValue
+    | cssKey COLON (NUMBER PX?)+ SIME?      #numberCssValue
+    | cssKey COLON (NUMBER HUN) SIME?       #percentageCssValue
+    | cssKey COLON callFun SIME?            #functionCssValue
     ;
 
 //---------------------------------------------------------------------------------------------------

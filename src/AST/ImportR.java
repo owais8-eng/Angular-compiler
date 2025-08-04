@@ -59,6 +59,32 @@ public class ImportR extends ASTNode {
        return stringBuilder.toString();
     }
 
+    @Override
+    public String generateCode(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (signal != null && !signal.isEmpty()) {
+            stringBuilder.append(signal).append(" ");
+        }
+        if (identifiers != null && !identifiers.isEmpty()) {
+            stringBuilder.append("{ ");
+            for (int i  = 0 ; i < identifiers.size();i++) {
+                stringBuilder.append(identifiers.get(i));
+                if (i < identifiers.size()-1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            stringBuilder.append(" } ");
+        }
+
+        if (from != null && !from.isEmpty()) {
+            stringBuilder.append("from '").append(from).append("'");
+        }
+        stringBuilder.append(";");
+
+        return stringBuilder.toString();
+    }
+
 
 }
 

@@ -47,5 +47,15 @@ public class enum_ extends ASTNode{
         return stringBuilder.toString();
     }
 
+    @Override
+    public String generateCode(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        //logic code generation...
+
+        return stringBuilder.toString();
+
+    }
+
 
 }

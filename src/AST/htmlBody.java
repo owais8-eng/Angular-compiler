@@ -2,7 +2,7 @@ package AST;
 
 import Antlr.BaseVisitor;
 
-public class htmlBody extends ASTNode {
+public class htmlBody extends ASTNode implements htmlContent{
     public mapMethod2 mapMethod2;
     public hh hh;
 
