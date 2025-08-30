@@ -69,37 +69,5 @@ public class Exports extends ASTNode {
 
     }
 
-    @Override
-    public String generateCode() {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (decorators != null ){
-            for (decorater dec : decorators) {
-                stringBuilder.append(dec.generateCode()).append("\n");
-            }
-        }
-        stringBuilder.append("export ");
-
-        if (ids != null && !ids.isEmpty()) {
-            stringBuilder.append("class").append(ids.get(0));
-            if (ids.size() > 1) {
-                stringBuilder.append("extends ");
-                for (int i = 1; i < ids.size() ; i++) {
-                    stringBuilder.append(ids.get(i));
-                    if (i < ids.size()-1){
-                        stringBuilder.append(", ");
-                    }
-                }
-            }
-        }
-        stringBuilder.append("\n");
-
-        if (classBody != null) {
-            stringBuilder.append(classBody.generateCode());
-        }
-        stringBuilder.append("}\n");
-
-        return stringBuilder.toString();
-
-    }
 
 }

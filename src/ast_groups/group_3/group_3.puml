@@ -1,0 +1,114 @@
+@startuml
+class enum_ {
+    + name : sy
+    + ids : List<String>
+    + getName() : sy
+    + setName(sy name) : void
+    + getIds() : List<String>
+    + setIds(List<String> ids) : void
+    + toString() : String
+}
+ASTNode <|-- enum_
+class Exports {
+    + decorators : List<decorater>
+    + ids : List<String>
+    + classBody : classBody
+    + getDecorators() : List<decorater>
+    + setDecorators(List<decorater> decorators) : void
+    + setClassBody(AST.classBody classBody) : void
+    + getIds() : List<String>
+    + setIds(List<String> ids) : void
+    + toString() : String
+}
+ASTNode <|-- Exports
+class function {
+    + name : String
+    + vv : vv
+    + functionBody : functionBody
+    + returnStatement : returnStatement
+    + getName() : String
+    + setName(String name) : void
+    + getFunctionParams() : List<functionParam>
+    + setFunctionParams(List<functionParam> functionParams) : void
+    + setVv(AST.vv vv) : void
+    + getDdList() : List<dd>
+    + setDdList(List<dd> ddList) : void
+    + setFunctionBody(AST.functionBody functionBody) : void
+    + setReturnStatement(AST.returnStatement returnStatement) : void
+    + toString() : String
+}
+ASTNode <|-- function
+class function2 {
+    + vv : vv
+    + functionBody : functionBody
+    + returnStatement : returnStatement
+    + getFunctionParams() : List<functionParam>
+    + setFunctionParams(List<functionParam> functionParams) : void
+    + setVv(AST.vv vv) : void
+    + getDdList() : List<dd>
+    + setDdList(List<dd> ddList) : void
+    + setFunctionBody(AST.functionBody functionBody) : void
+    + setReturnStatement(AST.returnStatement returnStatement) : void
+    + toString() : String
+}
+ASTNode <|-- function2
+class functionBody {
+    + getStatement() : List<ASTNode>
+    + setStatements(List<ASTNode> statements) : void
+    + addStatement(ASTNode stmt) : void
+    + toString() : String
+}
+ASTNode <|-- functionBody
+class functionParam {
+    + type : String
+    + id : String
+    + getType() : String
+    + setType(String type) : void
+    + getId() : String
+    + setId(String id) : void
+    + toString() : String
+}
+ASTNode <|-- functionParam
+class hh {
+    + id : String
+    + html : html
+    + getId() : String
+    + setId(String id) : void
+    + setHtml(AST.html html) : void
+    + toString() : String
+}
+ASTNode <|-- hh
+class html {
+    - tagName : String
+    - htmlInside : htmlInside
+    - contents : List<htmlContent>
+    + getTagName() : String
+    + setTagName(String tagName) : void
+    + getHtmlInside() : htmlInside
+    + setHtmlInside(htmlInside htmlInside) : void
+    + getContents() : List<htmlContent>
+    + setContents(List<htmlContent> contents) : void
+    + toString() : String
+}
+ASTNode <|-- html
+htmlContent <|.. html
+class htmlBody {
+    + mapMethod2 : mapMethod2
+    + hh : hh
+    + setMapMethod2(AST.mapMethod2 mapMethod2) : void
+    + setHh(AST.hh hh) : void
+    + toString() : String
+}
+ASTNode <|-- htmlBody
+htmlContent <|.. htmlBody
+class htmlClass {
+    + className : String
+    + value2 : Value2
+    + getClassName() : String
+    + setClassName(String className) : void
+    + getValue2() : Value2
+    + setValue2(Value2 value2) : void
+    + toString() : String
+}
+ASTNode <|-- htmlClass
+@enduml

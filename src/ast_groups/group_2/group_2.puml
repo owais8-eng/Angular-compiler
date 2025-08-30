@@ -1,0 +1,96 @@
+@startuml
+class constructor {
+    + vvs : List<vv>
+    + functionBody : functionBody
+    + setFunctionBody(AST.functionBody functionBody) : void
+    + getVvs() : List<vv>
+    + setVvs(List<vv> vvs) : void
+    + toString() : String
+}
+ASTNode <|-- constructor
+class cssCode {
+    + cssKeys : List<cssKey>
+    + cssInners : List<cssInner>
+    + getCssKeys() : List<cssKey>
+    + setCssKeys(List<cssKey> cssKeys) : void
+    + getCssInners() : List<cssInner>
+    + setCssInners(List<cssInner> cssInners) : void
+    + toString() : String
+}
+ASTNode <|-- cssCode
+class cssInner {
+    + cssKey : cssKey
+    + id : String
+    + number : String
+    + callFun : callFun
+    + setCssKey(AST.cssKey cssKey) : void
+    + getId() : String
+    + setId(String id) : void
+    + getNumbers() : List<String>
+    + setNumbers(List<String> numbers) : void
+    + getNumber() : String
+    + setNumber(String number) : void
+    + setCallFun(AST.callFun callFun) : void
+    + toString() : String
+}
+ASTNode <|-- cssInner
+class cssKey {
+    + sies : List<sy>
+    + getSies() : List<sy>
+    + setSies(List<sy> sies) : void
+    + toString() : String
+}
+ASTNode <|-- cssKey
+class dd {
+    + dataType : String
+    + getDataType() : String
+    + setDataType(String dataType) : void
+    + toString() : String
+}
+ASTNode <|-- dd
+class decorater {
+    - type : String
+    - config : Object
+    + getType() : String
+    + setType(String type) : void
+    + getConfig() : Object
+    + setConfig(Object config) : void
+    + toString() : String
+}
+ASTNode <|-- decorater
+class DirectiveConfig {
+    - selector : Selector
+    + getSelector() : Selector
+    + setSelector(Selector selector) : void
+    + toString() : String
+}
+ASTNode <|-- DirectiveConfig
+class dotdot {
+    + id : String
+    + strings : List<String>
+    + vvs : List<vv>
+    + getId() : String
+    + setId(String id) : void
+    + getStrings() : List<String>
+    + setStrings(List<String> strings) : void
+    + getVvs() : List<vv>
+    + setVvs(List<vv> vvs) : void
+    + getFunction2s() : List<function2>
+    + setFunction2s(List<function2> function2s) : void
+    + toString() : String
+}
+ASTNode <|-- dotdot
+class dotExpression {
+    - htmlDot : htmlDot
+    + getHtmlDot() : htmlDot
+    + setHtmlDot(htmlDot htmlDot) : void
+    + toString() : String
+}
+htmlExpression <|-- dotExpression
+class Entry {
+    + getKey() : String
+    + getValue() : Object
+    + toString() : String
+}
+ASTNode <|-- Entry
+@enduml

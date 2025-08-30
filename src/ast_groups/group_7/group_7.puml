@@ -1,0 +1,134 @@
+@startuml
+class thisCall {
+    - id : String
+    - variableValues : VariableValue
+    - dotdots : List<dotdot>
+    + getId() : String
+    + setId(String id) : void
+    + getVariableValues() : VariableValue
+    + setVariableValues(VariableValue variableValues) : void
+    + getDotdots() : List<dotdot>
+    + setDotdots(List<dotdot> dotdots) : void
+    + toString() : String
+}
+ASTNode <|-- thisCall
+class updateState {
+    - variableName : variableName
+    - value : ASTNode
+    + getVariableName() : variableName
+    + setVariableName(variableName variableName) : void
+    + getValue() : ASTNode
+    + setValue(ASTNode value) : void
+    + toString() : String
+}
+ASTNode <|-- updateState
+class Value {
+    + subValue : SubValue
+    + array : Array
+    + html : html
+    + map : Map
+    + getSubValue() : SubValue
+    + setSubValue(SubValue subValue) : void
+    + getArray() : Array
+    + setArray(Array array) : void
+    + setHtml(AST.html html) : void
+    + getMap() : Map
+    + setMap(Map map) : void
+    + toString() : String
+}
+ASTNode <|-- Value
+class Value2 {
+    + onClick : OnClick
+    + attributeValue : attributeValue
+    + idLeft : String
+    + idRight : String
+    + getOnClick() : OnClick
+    + setOnClick(OnClick onClick) : void
+    + setAttributeValue(AST.attributeValue attributeValue) : void
+    + getIdLeft() : String
+    + setIdLeft(String idLeft) : void
+    + getIdRight() : String
+    + setIdRight(String idRight) : void
+    + toString() : String
+}
+ASTNode <|-- Value2
+class varExpression {
+    - var : htmlVar
+    + getHtmlVar() : htmlVar
+    + setHtmlVar(htmlVar htmlVar) : void
+    + toString() : String
+}
+htmlExpression <|-- varExpression
+class Variable {
+    - nameParts : List<String>
+    + modifier : String
+    + visibility : String
+    + datatype : String
+    + vvs : vv
+    + arrayType : arrayType
+    + value : VariableValue
+    + getNameParts() : List<String>
+    + setNameParts(List<String> nameParts) : void
+    + getModifier() : String
+    + setModifier(String modifier) : void
+    + getVisibility() : String
+    + setVisibility(String visibility) : void
+    + getDatatype() : String
+    + setDatatype(String datatype) : void
+    + getVvNode() : vv
+    + setVvNode(vv vvNode) : void
+    + getArrayType() : arrayType
+    + setArrayTypeNode(arrayType arrayTypeNode) : void
+    + getValue() : VariableValue
+    + setValue(VariableValue value) : void
+    + toString() : String
+}
+ASTNode <|-- Variable
+class variableName {
+    + firstPart : String
+    + dotIds : List<String>
+    + getFirstPart() : String
+    + setFirstPart(String firstPart) : void
+    + getDotIds() : List<String>
+    + setDotIds(List<String> dotIds) : void
+    + toString() : String
+}
+ASTNode <|-- variableName
+class VariableValue {
+    + string : String
+    + id : String
+    + decimal : Integer
+    + array : Array
+    + map : Map
+    + thisCall : thisCall
+    + function2 : function2
+    + callFun : callFun
+    + function : function
+    + vvs : List<vv>
+    + getString() : String
+    + setString(String string) : void
+    + getId() : String
+    + setId(String id) : void
+    + getDecimal() : Integer
+    + setDecimal(Integer decimal) : void
+    + getArray() : Array
+    + setArray(Array array) : void
+    + getMap() : Map
+    + setMap(Map map) : void
+    + setThisCall(AST.thisCall thisCall) : void
+    + setFunction2(AST.function2 function2) : void
+    + setCallFun(AST.callFun callFun) : void
+    + setFunction(AST.function function) : void
+    + getVvs() : List<vv>
+    + setVvs(List<vv> vvs) : void
+    + toString() : String
+}
+ASTNode <|-- VariableValue
+class vv {
+    + id : String
+    + getString() : String
+    + setString(String string) : void
+    + toString() : String
+}
+ASTNode <|-- vv
+@enduml

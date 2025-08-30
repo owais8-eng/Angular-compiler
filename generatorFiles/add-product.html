@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة منتج جديد - متجر المنتجات الإلكترونية</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .input-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #1c6ea4 100%);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f1f2f6;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #dfe4ea;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+        }
+
+        .image-preview span {
+            color: #7f8c8d;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #27ae60;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .input-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>إضافة منتج جديد</h1>
+        <p class="description">املأ النموذج أدناه لإضافة منتج جديد إلى المتجر</p>
+    </header>
+
+    <form id="add-product-form">
+        <div class="form-group">
+            <label for="product-name">اسم المنتج <span class="required">*</span></label>
+            <input type="text" id="product-name" placeholder="أدخل اسم المنتج" required>
+        </div>
+
+        <div class="form-group">
+            <label for="product-description">وصف المنتج <span class="required">*</span></label>
+            <textarea id="product-description" placeholder="أدخل وصفاً مفصلاً للمنتج" required></textarea>
+        </div>
+
+        <div class="input-row">
+            <div class="form-group">
+                <label for="product-price">السعر (ريال) <span class="required">*</span></label>
+                <input type="number" id="product-price" min="0" step="0.01" placeholder="0.00" required>
+            </div>
+
+            <div class="form-group">
+                <label for="product-category">التصنيف <span class="required">*</span></label>
+                <select id="product-category" required>
+                    <option value="">اختر التصنيف</option>
+                    <option value="electronics">إلكترونيات</option>
+                    <option value="computers">أجهزة كمبيوتر</option>
+                    <option value="phones">هواتف</option>
+                    <option value="accessories">إكسسوارات</option>
+                    <option value="home">منتجات منزلية</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="product-image">صورة المنتج</label>
+            <input type="file" id="product-image" accept="image/*">
+            <div class="image-preview">
+                <img id="preview-img" src="" alt="معاينة الصورة">
+                <span id="preview-text">سيظهر معاينة للصورة هنا</span>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="form-group">
+                <label for="product-stock">الكمية المتاحة <span class="required">*</span></label>
+                <input type="number" id="product-stock" min="0" placeholder="0" required>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">إضافة المنتج</button>
+        <button type="button" class="btn btn-secondary" id="cancel-btn">إلغاء</button>
+    </form>
+
+    <div class="form-footer">
+        <p>جميع الحقوق محفوظة © 2023 - متجر المنتجات الإلكترونية</p>
+    </div>
+</div>
+
+<div class="notification" id="notification">تم إضافة المنتج بنجاح!</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('add-product-form');
+        const imageInput = document.getElementById('product-image');
+        const previewImg = document.getElementById('preview-img');
+        const previewText = document.getElementById('preview-text');
+        const notification = document.getElementById('notification');
+        const cancelBtn = document.getElementById('cancel-btn');
+
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', function() {
+                    previewImg.src = reader.result;
+                    previewImg.style.display = 'block';
+                    previewText.style.display = 'none';
+                });
+
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.style.display = 'none';
+                previewText.style.display = 'block';
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            showNotification('تم إضافة المنتج بنجاح!');
+
+            setTimeout(function() {
+                form.reset();
+                previewImg.style.display = 'none';
+                previewText.style.display = 'block';
+            }, 2000);
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            if (confirm('هل تريد حقاً إلغاء عملية الإضافة؟ سيتم فقدان جميع البيانات.')) {
+                form.reset();
+                previewImg.style.display = 'none';
+                previewText.style.display = 'block';
+            }
+        });
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+
+            setTimeout(function() {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    });
+</script>
+</body>
+</html>

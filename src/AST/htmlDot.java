@@ -1,8 +1,6 @@
 package AST;
 
-import Antlr.BaseVisitor;
-
-public class htmlDot extends ASTNode {
+public class htmlDot extends htmlExpression {
     public String IdLeft;
     public String Idright;
 
@@ -34,5 +32,6 @@ public class htmlDot extends ASTNode {
                 '}';
     }
 
+    //--------
 
 }

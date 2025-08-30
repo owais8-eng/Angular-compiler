@@ -1,0 +1,40 @@
+import { component } from '@angular/core';
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+}
+
+@Component({
+  selector: 'add-product-list',
+  templateUrl: 'add-product.html',
+  styles: ["style1.css"]
+})
+export class ProductListComponent {
+  products: Product[] = [
+    {
+      id: 1,
+      name: 'Laptop Dell XPS',
+      price: 1200,
+      description: 'High performance laptop for developers',
+      image: 'assets/images/laptop.jpg'
+    },
+    {
+      id: 2,
+      name: 'iPhone 15',
+      price: 999,
+      description: 'Latest Apple smartphone with amazing features',
+      image: 'assets/images/iphone.jpg'
+    },
+    {
+      id: 3,
+      name: 'Headphones Sony',
+      price: 250,
+      description: 'Noise cancelling wireless headphones',
+      image: 'assets/images/headphones.jpg'
+    }
+  ];
+}

@@ -4,7 +4,7 @@ import Antlr.BaseVisitor;
 
 import java.util.List;
 
-public class htmlVar extends ASTNode {
+public class htmlVar extends htmlExpression {
     public List<String> nameParts;
 
     public htmlVar() {
@@ -25,6 +25,7 @@ public class htmlVar extends ASTNode {
                 "\nnameParts=" + nameParts +
                 "\n}";
     }
+
 
 
 

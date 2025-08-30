@@ -5,4 +5,6 @@ public class ConcreteCallFun extends callFun{
         super("call fun");
 
     }
+
+
 }

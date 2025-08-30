@@ -25,6 +25,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
     MapSymbol symbol = new MapSymbol();
     private Deque<String> scopeStack = new ArrayDeque<>();
 
+    private Deque<html> htmlStack = new ArrayDeque<>();
+    private Deque<htmlInside> htmlInsideStack = new ArrayDeque<>();
     private String getCurrentScope(){
         return scopeStack.isEmpty() ? "global" :scopeStack.peek();
     }
@@ -41,12 +43,53 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
 
     @Override
+    public ASTNode visitComponentConfig(AngParser.ComponentConfigContext ctx) {
+        ComponentConfig config = new ComponentConfig();
+
+        if (ctx.selector() != null) {
+            config.setSelector((Selector) visit(ctx.selector()));
+        }
+        if (ctx.template() != null) {
+            config.setTemplate((Template) visit(ctx.template()));
+        } else if (ctx.templateUrl() != null) {
+            config.setTemplateUrl((TemplateUrl) visit(ctx.templateUrl()));
+        }
+        if (ctx.styleUrls() != null) {
+            config.setStyleUrls((StyleUrls) visit(ctx.styleUrls()));
+        }
+
+        return config;
+    }
+
+    @Override
     public decorater visitComponentDecorator(AngParser.ComponentDecoratorContext ctx) {
         decorater decorater = new decorater();
         decorater.setType("Component");
 
-        ComponentConfig config = (ComponentConfig) visit(ctx.componentConfig());
+        ComponentConfig config = new ComponentConfig();
+
+        if (ctx.componentConfig() != null) {
+            if (ctx.componentConfig().selector() != null) {
+                Selector selector = (Selector) visit(ctx.componentConfig().selector());
+                config.setSelector(selector);
+            }
+            if (ctx.componentConfig().template() != null) {
+                Template template = (Template) visit(ctx.componentConfig().template());
+                config.setTemplate(template);
+            } else if (ctx.componentConfig().templateUrl() != null) {
+                {
+                    TemplateUrl templateUrl = (TemplateUrl) visit(ctx.componentConfig().templateUrl());
+                    config.setTemplateUrl(templateUrl);
+                }
+            }
+            if (ctx.componentConfig().styleUrls() != null) {
+                StyleUrls styleUrls = (StyleUrls) visit(ctx.componentConfig().styleUrls());
+                config.setStyleUrls(styleUrls);
+            }
+        }
+
         decorater.setConfig(config);
+
 
         String componentScope = "Component" ;
         scopeStack.push(componentScope);
@@ -99,29 +142,20 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         return template;
     }
 //-----------symbol----------
-    @Override
-    public ASTNode visitTemplateUrl(AngParser.TemplateUrlContext ctx) {
-        TemplateUrl templateUrl = new TemplateUrl();
-        String value = null;
-
-        if (ctx != null) {
-            if (ctx.SingleLineString() != null) {
-                String raw = ctx.SingleLineString().getText();
-                value = raw.substring(1, raw.length() - 1); // Remove quotes
-            }
-            if (value != null) {
-                templateUrl.setValue(value);
-                symbolTable.add(
-                        "templateUrl",
-                        "TemplateUrl",
-                        value,
-                        getCurrentScope()
-                );
-            }
-        }
-
-        return templateUrl;
+@Override
+public ASTNode visitTemplateUrl(AngParser.TemplateUrlContext ctx) {
+    TemplateUrl templateUrl = new TemplateUrl();
+    System.out.println(">>>>>");
+     if (ctx != null && ctx.SINGLE_QUOTED_STRING() != null) {
+      String raw = ctx.SINGLE_QUOTED_STRING().getText();
+      String value = raw.substring(1,raw.length()-1);
+      templateUrl.setValue(value);
+         String currentScope = getCurrentScope();
+         symbolTable.add("templateUrl", "TemplateUrl",value, currentScope);
     }
+    return templateUrl;
+}
+
 
     //-------symbol--------
     @Override
@@ -135,8 +169,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         }
         styleUrls.setValues(values);
         symbolTable.add(
-                "Styleurls",
-                "Styleurls",
+                "Stylers",
+                "Stylers",
                 String.join(",",values),
                 getCurrentScope()
         );
@@ -146,8 +180,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitSelector(AngParser.SelectorContext ctx) {
         Selector selector = new Selector();
-        if (ctx != null &&ctx.SingleLineString() != null) {
-            String raw = ctx.SingleLineString().getText();
+        if (ctx != null && ctx.SINGLE_QUOTED_STRING() != null) {
+            String raw = ctx.SINGLE_QUOTED_STRING().getText();
             String value = raw.substring(1, raw.length() - 1);
             selector.setValue(value);
             String currentScope = getCurrentScope();
@@ -168,6 +202,8 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         List<enum_> enumS = new ArrayList<>();
         List<Exports> exports = new ArrayList<>();
         List<interfaceCode> interfaceCodes = new ArrayList<>();
+        List<html> htmlList = new ArrayList<>();
+        List<cssCode> cssCodeList = new ArrayList<>();
         for (int i =0 ; i<ctx.importR().size();i++) {
             ImportR importR = visitImportR(ctx.importR().get(i));
             importRS.add(importR);
@@ -184,16 +220,41 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
         }
         for (int i =0 ; i<ctx.exports().size();i++) {
-            exports.add(visitExports(ctx.exports().get(i)));
+            Exports exportNode = visitExports(ctx.exports().get(i));
+            exports.add(exportNode);
 
         }
         for (int i =0 ; i<ctx.interfaceCode().size();i++) {
             interfaceCodes.add(visitInterfaceCode(ctx.interfaceCode().get(i)));
         }
+        for (int i=0 ; i<ctx.html().size();i++) {
+                htmlList.add(visitHtml(ctx.html().get(i))) ;
+        }
+        for (int i=0 ; i<ctx.cssCode().size();i++) {
+            cssCodeList.add(visitCssCode(ctx.cssCode().get(i))) ;
+        }
+
+        app.setImportRS(importRS);
+        app.setFunctions(functions);
+        app.setVariables(variables);
+        app.setEnumS(enumS);
+        app.setExports(exports);
+        app.setInterfaceCodes(interfaceCodes);
+        app.setHtmlList(htmlList);
+        app.setCssCodeList(cssCodeList);
+
         SemanticCheck semanticCheck = new SemanticCheck();
         semanticCheck.setSymbolTable(this.symbolTable);
-        boolean isValid =  semanticCheck.check(symbolTable);
-       symbol.print();
+
+        boolean isValid = semanticCheck.check(this.symbolTable);
+
+        if (!isValid) {
+            // Handle semantic errors (e.g., throw exception or log errors)
+            System.err.println("Semantic errors detected in the app.");
+            semanticCheck.printErrors();
+        }
+
+        symbol.print();
         return app;
     }
 
@@ -261,9 +322,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
             scopeStack.pop();
         }
 
-        String scope = "class" + exports.getIds().get(0);
-        scopeStack.push(scope);
-        scopeStack.pop();
 
         return exports;
     }
@@ -1089,7 +1147,7 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
     @Override
     public html visitHtml(AngParser.HtmlContext ctx) {
         html html = new html();
-        html.setTagName(ctx.SYNTAX() != null ? ctx.SYNTAX().toString() : null);
+        html.setTagName(ctx.SYNTAX().get(0) != null ? ctx.SYNTAX().get(0).toString() : null);
         if (ctx.htmlinside() != null) {
             html.setHtmlInside((htmlInside) visit(ctx.htmlinside()));
         }
@@ -1115,6 +1173,10 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         if (ctx.callFun() != null) {
             callExpression.setFunction((callFun) visit(ctx.callFun()));
         }
+
+        if (!htmlStack.isEmpty()) htmlStack.peek().getContents().add(callExpression);
+        else if (!htmlInsideStack.isEmpty()) htmlInsideStack.peek().getChildrens().add(callExpression);
+
         return  callExpression;
     }
 
@@ -1124,6 +1186,9 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         if (ctx.htmlDot() != null) {
             dotExpression.setHtmlDot((htmlDot) visit(ctx.htmlDot()));
         }
+        if (!htmlStack.isEmpty()) htmlStack.peek().getContents().add(dotExpression);
+        else if (!htmlInsideStack.isEmpty()) htmlInsideStack.peek().getChildrens().add(dotExpression);
+
         return dotExpression;
     }
 
@@ -1133,19 +1198,10 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
         if (ctx.htmlVar() != null) {
             varExpression.setHtmlVar((htmlVar) visit(ctx.htmlVar()));
         }
+        if (!htmlStack.isEmpty()) htmlStack.peek().getContents().add(varExpression);
+        else if (!htmlInsideStack.isEmpty()) htmlInsideStack.peek().getChildrens().add(varExpression);
+
         return varExpression;
-    }
-
-    @Override
-    public ASTNode visitHtmlContent(AngParser.HtmlContentContext ctx) {
-
-        if (ctx.htmlBody() != null) return visit(ctx.htmlBody());
-        if (ctx.html() != null){
-
-            return visit(ctx.html());
-        }
-        if (ctx.htmlExpression() != null) return  visit(ctx.htmlExpression());
-        return null;
     }
 
     @Override
@@ -1203,9 +1259,11 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
     public htmlInside visitHtmlinside(AngParser.HtmlinsideContext ctx) {
 
         htmlInside inside = new htmlInside();
+
         if (ctx.sy() != null) {
-            inside.setSy((sy) visit(ctx.sy()));
+            inside.setProperty(ctx.sy().getText());
         }
+
         List<htmlId> ids = new ArrayList<>();
         for (AngParser.HtmlIDContext idContext : ctx.htmlID()) {
             if (idContext != null) {
@@ -1223,9 +1281,6 @@ public class BaseVisitor extends AngParserBaseVisitor<ASTNode> {
 
 
         StringBuilder value = new StringBuilder();
-        if (inside.getSy() != null) {
-            value.append("sy: ").append(inside.getSy());
-        }
 
         if (!ids.isEmpty()) {
             if (value.length() > 0) value.append(", ");

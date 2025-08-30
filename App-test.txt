@@ -1,31 +1,40 @@
 import { component } from '@angular/core';
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+}
+
 @Component({
-  selector: 'app-product',
-  template:
-    <div style="width: 300px; padding: 20px; border: 1px solid gray;">
-      <h1>{ product.title }</h1>
-      <img src="product.imageUrl" alt="Product Image"
-           style="width: 100%; height: 200px; object-fit: cover;" />
-      <p>{ product.description }</p>
-      <h3>Price: { formatPrice(product.price) } </h3>
-      <button click="addToCart()">Add to Cart</button>
-    </div>
-
+  selector: 'app-product-list',
+  templateUrl: 'app-product.html',
+  styles: ["style.ss"]
 })
-export class ProductComponent {
-  product = {
-    title: "Smartphone",
-    description: "Top-tier smartphone with amazing features",
-    price: 999,
-    imageUrl: "https://example.com/phone.jpg"
-  };
-
-  formatPrice(P: number): string {
-     return P;
-  }
-
-  addToCart(): void {
-    console.log("Product added to cart");
-  }
+export class ProductListComponent {
+  products: Product[] = [
+    {
+      id: 1,
+      name: 'Laptop Dell XPS',
+      price: 1200,
+      description: 'High performance laptop for developers',
+      image: 'assets/images/laptop.jpg'
+    },
+    {
+      id: 2,
+      name: 'iPhone 15',
+      price: 999,
+      description: 'Latest Apple smartphone with amazing features',
+      image: 'assets/images/iphone.jpg'
+    },
+    {
+      id: 3,
+      name: 'Headphones Sony',
+      price: 250,
+      description: 'Noise cancelling wireless headphones',
+      image: 'assets/images/headphones.jpg'
+    }
+  ];
 }

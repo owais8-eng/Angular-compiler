@@ -30,5 +30,4 @@ public class Array extends ASTNode {
         return stringBuilder.toString();
     }
 
-
 }

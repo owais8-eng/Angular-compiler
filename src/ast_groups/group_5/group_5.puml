@@ -1,0 +1,106 @@
+@startuml
+class mapMethod2 {
+    + ids : List<String>
+    + mapParam : mapParam
+    + html : html
+    + getIds() : List<String>
+    + setIds(List<String> ids) : void
+    + setMapParam(AST.mapParam mapParam) : void
+    + setHtml(AST.html html) : void
+    + toString() : String
+}
+ASTNode <|-- mapMethod2
+class mapParam {
+    + ids : List<String>
+    + getIds() : List<String>
+    + setIds(List<String> ids) : void
+    + toString() : String
+}
+ASTNode <|-- mapParam
+class MapSymbol {
+    + addVariable(String varaibleName,Object value) : void
+    + updateVariable(String variableName,Object newValue) : void
+    + getValue(String variableName) : Object
+    + print() : void
+}
+class navigateCall {
+    - path : String
+    - stateParam : stateParam
+    + getPath() : String
+    + setPath(String path) : void
+    + getStateParam() : stateParam
+    + setStateParam(stateParam stateParam) : void
+    + toString() : String
+}
+callFun <|-- navigateCall
+class OnClick {
+    + function2 : function2
+    + id : String
+    + setFunction2(AST.function2 function2) : void
+    + getId() : String
+    + setId(String id) : void
+    + toString() : String
+}
+ASTNode <|-- OnClick
+class Print {
+    + string : String
+    + thisCall : thisCall
+    + getString() : String
+    + setString(String string) : void
+    + setThisCall(AST.thisCall thisCall) : void
+    + toString() : String
+}
+ASTNode <|-- Print
+class returnStatement {
+    + thisCall : thisCall
+    + string : String
+    + id : String
+    + decimal : Integer
+    + array : Array
+    + getId() : String
+    + setId(String id) : void
+    + getDecimal() : Integer
+    + setDecimal(Integer decimal) : void
+    + setThisCall(AST.thisCall thisCall) : void
+    + getString() : String
+    + setString(String string) : void
+    + getArray() : Array
+    + setArray(Array array) : void
+    + toString() : String
+}
+ASTNode <|-- returnStatement
+class routerCall {
+    - routerName : String
+    - path : String
+    - stateParam : stateParam
+    - isThis : boolean
+    + isThis() : boolean
+    + setThis(boolean aThis) : void
+    + getRouterName() : String
+    + setRouterName(String routerName) : void
+    + getPath() : String
+    + setPath(String path) : void
+    + getStateParam() : stateParam
+    + setStateParam(stateParam stateParam) : void
+    + toString() : String
+}
+callFun <|-- routerCall
+class routerName {
+    - name : String
+    + getName() : String
+    + setName(String name) : void
+    + toString() : String
+}
+ASTNode <|-- routerName
+class Row {
+    + getType() : String
+    + setType(String type) : void
+    + getValue() : String
+    + setValue(String value) : void
+    + getName() : String
+    + setName(String name) : void
+    + getScope() : String
+    + setScope(String scope) : void
+    + toString() : String
+}
+@enduml

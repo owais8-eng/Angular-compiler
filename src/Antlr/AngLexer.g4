@@ -119,7 +119,7 @@ MAP_:'map';
 OPERATION:PLUS|MINUS|PLPL|'--'|PLE|'-='|MULTI|'==';
 SYNTAX : 'div' |'li' |'p' |'ul' |SIZE_FONT | 'main' | 'BrowserRouter' | 'Switch' | 'Route' | 'img' | 'button';
 //FUNCTION_NAME : WORD+  ;
-NUMBER:DIGIT+;
+NUMBER:DECIMEL+;
 SINGLE_QUOTED_STRING
     : '\'' ( ~['\\] | '\\' . )* '\'';
     HEX_NUMBER : '0x' HEX_DIGIT+ | '0X' HEX_DIGIT+ ;

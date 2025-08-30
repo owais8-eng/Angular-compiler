@@ -1,0 +1,95 @@
+@startuml
+class htmlDot {
+    + IdLeft : String
+    + Idright : String
+    + getIdLeft() : String
+    + setIdLeft(String idLeft) : void
+    + getIdright() : String
+    + setIdright(String idright) : void
+    + toString() : String
+}
+htmlExpression <|-- htmlDot
+class htmlExpression {
+}
+ASTNode <|-- htmlExpression
+htmlContent <|.. htmlExpression
+class htmlId {
+    + isMulti : String
+    + id : String
+    + value2 : Value2
+    + getIsMulti() : String
+    + setIsMulti(String isMulti) : void
+    + getId() : String
+    + setId(String id) : void
+    + getValue2() : Value2
+    + setValue2(Value2 value2) : void
+    + toString() : String
+}
+ASTNode <|-- htmlId
+class htmlInside {
+    + property : String
+    + htmlIds : List<htmlId>
+    + htmlClasses : List<htmlClass>
+    - textContent : String
+    + children : List<htmlContent>
+    + getProperty() : String
+    + setProperty(String property) : void
+    + getHtmlIds() : List<htmlId>
+    + setHtmlIds(List<htmlId> htmlIds) : void
+    + getHtmlClasses() : List<htmlClass>
+    + setHtmlClasses(List<htmlClass> htmlClasses) : void
+    + getChildrens() : List<htmlContent>
+    + setChildren(List<htmlContent> children) : void
+    + getTextContent() : String
+    + setTextContent(String textContent) : void
+    + toString() : String
+}
+ASTNode <|-- htmlInside
+htmlContent <|.. htmlInside
+class htmlVar {
+    + nameParts : List<String>
+    + getNameParts() : List<String>
+    + setNameParts(List<String> nameParts) : void
+    + toString() : String
+}
+htmlExpression <|-- htmlVar
+class ImportR {
+    + from : String
+    + signal : String
+    + identifiers : List<String>
+    + getFrom() : String
+    + setFrom(String from) : void
+    + getSignal() : String
+    + setSignal(String signal) : void
+    + getIdentifiers() : List<String>
+    + setIdentifiers(List<String> identifiers) : void
+    + toString() : String
+}
+ASTNode <|-- ImportR
+class InjectableConfig {
+    - providedIn : String
+    + getProvidedIn() : String
+    + setProvidedIn(String providedIn) : void
+    + toString() : String
+}
+ASTNode <|-- InjectableConfig
+class interfaceCode {
+    + name : sy
+    + ids : List<String>
+    + members : List<vv>
+    + getName() : sy
+    + setName(sy name) : void
+    + getIds() : List<String>
+    + setIds(List<String> ids) : void
+    + getMembers() : List<vv>
+    + setMembers(List<vv> members) : void
+    + toString() : String
+}
+ASTNode <|-- interfaceCode
+class Map {
+    + setMap(java.util.Map<String, Object> map) : void
+    + addEntry(String key, ASTNode value) : void
+    + toString() : String
+}
+ASTNode <|-- Map
+@enduml

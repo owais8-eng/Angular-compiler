@@ -360,11 +360,26 @@ public interface AngParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHtml(AngParser.HtmlContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngParser#htmlContent}.
+	 * Visit a parse tree produced by the {@code bodyHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHtmlContent(AngParser.HtmlContentContext ctx);
+	T visitBodyHtml(AngParser.BodyHtmlContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code justHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJustHtml(AngParser.JustHtmlContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code expressionHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionHtml(AngParser.ExpressionHtmlContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code callExpression}
 	 * labeled alternative in {@link AngParser#htmlExpression}.

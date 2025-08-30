@@ -2,7 +2,7 @@ parser grammar AngParser;
 
 options { tokenVocab=AngLexer; }
 
-app : (importR | variable | function | exports | enum | interfaceCode)*  ;
+app : (importR | variable | function | exports | enum | interfaceCode | html | cssCode)*  ;
 
 importR: IMPORT OPEN_BRACE (((ID) COMMA?)* SIGNAL? COMMA? ((ID) COMMA?)*) CLOSE_BRACE FROM SINGLE_QUOTED_STRING SIME;
 
@@ -24,7 +24,7 @@ injectableConfig: OPEN_BRACE PROVIDEDIN COLON (PROVIDED_IN_ROOT | PROVIDED_IN_PL
 
 selector: SELECTOR COLON SINGLE_QUOTED_STRING ;
 
-templateUrl: TEMPLATEURL COLON SingleLineString ;
+templateUrl: TEMPLATEURL COLON SINGLE_QUOTED_STRING ;
 
 template: TEMPLATE COLON   html ;
 
@@ -118,10 +118,11 @@ html:
       JSX_OPEN JSX_SLASH SYNTAX JSX_CLOSE
       )?
       ;
+
 htmlContent :
-             htmlBody
-            |html
-            |htmlExpression
+             htmlBody                        #bodyHtml
+            |html                             #justHtml
+            |htmlExpression                    #expressionHtml
             ;
 htmlExpression :
                ID COLON OPEN_BRACE callFun CLOSE_BRACE    #callExpression
@@ -136,7 +137,8 @@ htmlDot :OPEN_BRACE? ID DOT ID CLOSE_BRACE?;
 
 htmlVar :OPEN_BRACE? ID (DOT ID)* CLOSE_BRACE?;
 
-htmlinside : sy? (htmlID | htmlClass)* ;
+htmlinside :sy? (htmlID | htmlClass)* SingleLineString? ;
+
 
 htmlID : (MULTI? (ID) EQUAL OPEN_BRACE? value2 CLOSE_BRACE?) ;
 
@@ -167,7 +169,6 @@ mapMethod2 : (ID DOT)* MAP_ OPEN_PAREN OPEN_PAREN mapParam?  CLOSE_PAREN ARROW  
 
 mapParam : (ID COMMA?)* ;
 
-
 callFun
  : AWAIT? navigateCall    SIME?    #navigateStatement
  | AWAIT? routerCall      SIME?    #routerStatement
@@ -175,12 +176,10 @@ callFun
 
  ;
 
-//added
 navigateCall
   : NAVIGATE OPEN_PAREN SingleLineString (COMMA stateParam)? CLOSE_PAREN
   ;
 
-//added
 routerCall
  : (THIS DOT)? routerName DOT NAVIGATE OPEN_PAREN SingleLineString (COMMA stateParam)? CLOSE_PAREN
  ;

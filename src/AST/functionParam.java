@@ -10,9 +10,11 @@ public class functionParam extends ASTNode {
         super("functionParam");
     }
 
-   public String getType() {return  type;}
+    public String getType() {
+        return type;
+    }
 
-    public void  setType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -24,7 +26,6 @@ public class functionParam extends ASTNode {
     public void setId(String id) {
         this.id = id;
     }
-
 
 
     @Override

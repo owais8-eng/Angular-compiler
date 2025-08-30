@@ -80,7 +80,7 @@ public class function2 extends ASTNode{
             for (int i = 0; i <
                     functionParams.size(); i++) {
                 stringBuilder.append(
-                        functionParams.get(i));
+                        functionParams.get(i).getId());
                 if (i <
                         functionParams.size() - 1) {
                     stringBuilder.append(",");
@@ -95,6 +95,5 @@ public class function2 extends ASTNode{
         stringBuilder.append("}");
         return  stringBuilder.toString();
     }
-
 
 }

@@ -60,4 +60,7 @@ public class ComponentConfig extends ASTNode {
                 ", styleUrls=" + styleUrls +
                 '}';
     }
+
+
+
 }

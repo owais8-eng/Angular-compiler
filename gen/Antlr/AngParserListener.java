@@ -598,15 +598,41 @@ public interface AngParserListener extends ParseTreeListener {
 	 */
 	void exitHtml(AngParser.HtmlContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngParser#htmlContent}.
+	 * Enter a parse tree produced by the {@code bodyHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
 	 * @param ctx the parse tree
 	 */
-	void enterHtmlContent(AngParser.HtmlContentContext ctx);
+	void enterBodyHtml(AngParser.BodyHtmlContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AngParser#htmlContent}.
+	 * Exit a parse tree produced by the {@code bodyHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
 	 * @param ctx the parse tree
 	 */
-	void exitHtmlContent(AngParser.HtmlContentContext ctx);
+	void exitBodyHtml(AngParser.BodyHtmlContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code justHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 */
+	void enterJustHtml(AngParser.JustHtmlContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code justHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 */
+	void exitJustHtml(AngParser.JustHtmlContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code expressionHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionHtml(AngParser.ExpressionHtmlContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code expressionHtml}
+	 * labeled alternative in {@link AngParser#htmlContent}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionHtml(AngParser.ExpressionHtmlContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code callExpression}
 	 * labeled alternative in {@link AngParser#htmlExpression}.

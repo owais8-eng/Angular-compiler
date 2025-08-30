@@ -1,0 +1,95 @@
+@startuml
+class Selector {
+    - value : String
+    + getValue() : String
+    + setValue(String value) : void
+    + toString() : String
+}
+ASTNode <|-- Selector
+class Statement {
+    + variable : Variable
+    + call : thisCall
+    + printt : Print
+    + callFun : callFun
+    + setVariable(Variable variable) : void
+    + setCall(thisCall call) : void
+    + setPrintt(Print printt) : void
+    + setCallFun(AST.callFun callFun) : void
+    + getVariable() : Variable
+    + getCall() : thisCall
+    + getPrintt() : Print
+    + toString() : String
+}
+ASTNode <|-- Statement
+class stateParam {
+    - key : String
+    - value : ASTNode
+    + getKey() : String
+    + getValue() : ASTNode
+    + setKey(String key) : void
+    + setValue(ASTNode value) : void
+    + toString() : String
+}
+ASTNode <|-- stateParam
+class StateParamsContainer {
+    - params : List<stateParam>
+    + getParams() : List<stateParam>
+    + setParams(List<stateParam> params) : void
+    + toString() : String
+}
+ASTNode <|-- StateParamsContainer
+class StyleUrls {
+    - values : List<String>
+    + getValues() : List<String>
+    + setValues(List<String> values) : void
+    + toString() : String
+}
+ASTNode <|-- StyleUrls
+class SubValue {
+    + string : String
+    + id : String
+    + decimal : Integer
+    + cssCode : List<cssCode>
+    + dotAccessValue : String
+    + getString() : String
+    + setString(String string) : void
+    + getId() : String
+    + setId(String id) : void
+    + getDecimal() : Integer
+    + setDecimal(Integer decimal) : void
+    + setCssCode(List<AST.cssCode> cssCode) : void
+    + getDotAccessValue() : String
+    + setDotAccess(String value) : void
+    + toString() : String
+}
+ASTNode <|-- SubValue
+class sy {
+    + id : String
+    + getId() : String
+    + setId(String id) : void
+    + toString() : String
+}
+ASTNode <|-- sy
+class SymbolTable {
+    + getRows() : List<Row>
+    + setRows(List<Row> rows) : void
+    + add(String name ,String type, String value,String scope) : void
+    + AddRow(Row row) : void
+    + clear() : void
+    + print() : void
+}
+class Template {
+    - value : html
+    + getValue() : html
+    + setValue(html value) : void
+    + toString() : String
+}
+ASTNode <|-- Template
+class TemplateUrl {
+    - value : String
+    + getValue() : String
+    + setValue(String value) : void
+    + toString() : String
+}
+ASTNode <|-- TemplateUrl
+@enduml

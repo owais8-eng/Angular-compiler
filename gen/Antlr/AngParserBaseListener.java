@@ -665,13 +665,37 @@ public class AngParserBaseListener implements AngParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHtmlContent(AngParser.HtmlContentContext ctx) { }
+	@Override public void enterBodyHtml(AngParser.BodyHtmlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHtmlContent(AngParser.HtmlContentContext ctx) { }
+	@Override public void exitBodyHtml(AngParser.BodyHtmlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJustHtml(AngParser.JustHtmlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJustHtml(AngParser.JustHtmlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpressionHtml(AngParser.ExpressionHtmlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpressionHtml(AngParser.ExpressionHtmlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

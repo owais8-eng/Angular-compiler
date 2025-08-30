@@ -1,24 +1,27 @@
 package AST;
 
 import Antlr.BaseVisitor;
+import AST.htmlContent;
 
 import java.util.List;
 
-public class htmlInside extends ASTNode{
-    public sy sy;
+public class htmlInside extends ASTNode implements htmlContent{
+    public  String property;
     public List<htmlId> htmlIds;
     public List<htmlClass> htmlClasses;
+    private String textContent;
+    public List<htmlContent> children;
 
     public htmlInside() {
         super("html Imside");
     }
 
-    public AST.sy getSy() {
-        return sy;
+    public String getProperty() {
+        return property;
     }
 
-    public void setSy(AST.sy sy) {
-        this.sy = sy;
+    public void  setProperty(String property) {
+        this.property = property;
     }
 
     public List<htmlId> getHtmlIds() {
@@ -37,20 +40,23 @@ public class htmlInside extends ASTNode{
         this.htmlClasses = htmlClasses;
     }
 
+    public List<htmlContent> getChildrens() { return children; }
+
+    public void setChildren(List<htmlContent> children) { this.children = children; }
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void  setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
     @Override
     public String toString() {
    StringBuilder stringBuilder = new StringBuilder("html Inside :{");
-   stringBuilder.append("sy :"+ sy);
-        if (htmlIds != null && !htmlIds.isEmpty()) {
-            stringBuilder.append("html ids [");
-            for (int i = 0; i < htmlIds.size(); i++) {
-                stringBuilder.append(htmlIds.get(i));
-                if (i < htmlIds.size() - 1) {
-                    stringBuilder.append(",");
-                }
-            }
-            stringBuilder.append("]");
-        }
+
+
         if (htmlClasses != null && !htmlClasses.isEmpty()) {
             stringBuilder.append(" html class [");
             for (int i = 0; i < htmlClasses.size(); i++) {
@@ -64,6 +70,7 @@ public class htmlInside extends ASTNode{
         stringBuilder.append("}");
         return stringBuilder.toString();
     }
+
 
 
 }

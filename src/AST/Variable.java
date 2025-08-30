@@ -91,34 +91,7 @@ public class Variable extends ASTNode {
         return sb.toString();
     }
 
-    @Override
-    public String generateCode() {
-        StringBuilder sb = new StringBuilder();
 
-        if (visibility != null && !visibility.isEmpty()) {
-            sb.append(visibility).append(" ");
-        }
-        if (modifier != null && !modifier.isEmpty()) {
-            sb.append(modifier).append(" ");
-        }
-        if (nameParts != null && !nameParts.isEmpty()) {
-            sb.append(String.join(".",nameParts));
-        }
-        if (datatype != null && !datatype.isEmpty()) {
-            sb.append(": ").append(datatype);
-            if (arrayType != null) {
-                sb.append("[]");
-            }
-        }
-        if (value != null) {
-
-            sb.append(" = ").append(value.generateCode());
-        }
-        sb.append(";");
-
-        return  sb.toString();
-
-    }
 
 
 

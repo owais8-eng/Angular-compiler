@@ -18,6 +18,10 @@ public boolean isAwait;
         this.isAwait = await;
     }
 
+    @Override
+    public String toString() {
+           return (isAwait ? "await " : "") + "<callFun>";
+    }
 
 
 }

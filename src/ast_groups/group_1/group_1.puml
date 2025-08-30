@@ -1,0 +1,117 @@
+@startuml
+class App {
+    + importRS : List<ImportR>
+    + exports : List<Exports>
+    + functions : List<function>
+    + variables : List<Variable>
+    + enumS : List<enum_>
+    + interfaceCodes : List<interfaceCode>
+    + htmlList : List<html>
+    + cssCodeList : List<cssCode>
+    + getImportRS() : List<ImportR>
+    + setImportRS(List<ImportR> importRS) : void
+    + getExports() : List<Exports>
+    + setExports(List<Exports> exports) : void
+    + getFunctions() : List<function>
+    + setFunctions(List<function> functions) : void
+    + getVariables() : List<Variable>
+    + setVariables(List<Variable> variables) : void
+    + getEnumS() : List<enum_>
+    + setEnumS(List<enum_> enumS) : void
+    + getInterfaceCodes() : List<interfaceCode>
+    + setInterfaceCodes(List<interfaceCode> interfaceCodes) : void
+    + getHtmlList() : List<html>
+    + setHtmlList(List<html> htmlList) : void
+    + getCssCodeList() : List<cssCode>
+    + setCssCodeList(List<cssCode> cssCodeList) : void
+    + toString() : String
+}
+ASTNode <|-- App
+class Array {
+    + subValues : List<SubValue>
+    + getSubValues() : List<SubValue>
+    + setSubValues(List<SubValue> subValues) : void
+    + toString() : String
+}
+ASTNode <|-- Array
+class arrayType {
+    - dataType : String
+    + getDataType() : String
+    + setDataType(String dataType) : void
+    + toString() : String
+}
+ASTNode <|-- arrayType
+class ASTNode {
+    - type : String
+    - children : List<ASTNode>
+    + addChild(ASTNode child) : void
+    + getChildren() : List<ASTNode>
+    + getType() : String
+    + toString() : String
+}
+class attributeValue {
+    + string : String
+    + id : String
+    + number : String
+    + getString() : String
+    + setString(String string) : void
+    + getId() : String
+    + setId(String id) : void
+    + getNumber() : String
+    + setNumber(String number) : void
+    + toString() : String
+}
+ASTNode <|-- attributeValue
+class callExpression {
+    - label : String
+    - fun : callFun
+    + getLabel() : String
+    + setLabel(String label) : void
+    + getFunction() : callFun
+    + setFunction(callFun function) : void
+    + toString() : String
+}
+htmlExpression <|-- callExpression
+class callFun {
+    + isAwait : boolean
+    + isAwait() : boolean
+    + setAwait(boolean await) : void
+    + toString() : String
+}
+ASTNode <|-- callFun
+class classBody {
+    + variables : List<Variable>
+    + functions : List<function>
+    + interfaceCodes : List<interfaceCode>
+    + constructors : List<constructor>
+    + getVariables() : List<Variable>
+    + setVariables(List<Variable> variables) : void
+    + getFunctions() : List<function>
+    + setFunctions(List<function> functions) : void
+    + getInterfaceCodes() : List<interfaceCode>
+    + setInterfaceCodes(List<interfaceCode> interfaceCodes) : void
+    + getConstructors() : List<constructor>
+    + setConstructors(List<constructor> constructors) : void
+    + toString() : String
+}
+ASTNode <|-- classBody
+class ComponentConfig {
+    - selector : Selector
+    - templateUrl : TemplateUrl
+    - template : Template
+    - styleUrls : StyleUrls
+    + getSelector() : Selector
+    + setSelector(Selector selector) : void
+    + getTemplateUrl() : TemplateUrl
+    + setTemplateUrl(TemplateUrl templateUrl) : void
+    + getTemplate() : Template
+    + setTemplate(Template template) : void
+    + getStyleUrls() : StyleUrls
+    + setStyleUrls(StyleUrls styleUrls) : void
+    + toString() : String
+}
+ASTNode <|-- ComponentConfig
+class ConcreteCallFun {
+}
+callFun <|-- ConcreteCallFun
+@enduml
